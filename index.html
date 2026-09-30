@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Phuket List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --butter-yellow: #FFF9C4;
+            --butter-yellow-rich: #FFF176;
+            --powder-blue: #B3E5FC;
+            --powder-blue-rich: #4FC3F7;
+            --powder-blue-glow: rgba(179, 229, 252, 0.6);
+            
+            --bg-gradient: linear-gradient(135deg, #FFFDE7 0%, var(--butter-yellow) 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Header */
+        .header {
+            position: relative;
+            text-align: center;
+            padding: clamp(30px, 8vw, 40px) 20px clamp(20px, 6vw, 30px);
+            background: linear-gradient(135deg, var(--powder-blue) 0%, #E1F5FE 100%);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 10px 30px var(--powder-blue-glow);
+            margin-bottom: 15px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .header::before {
+            content: '🌴';
+            position: absolute;
+            font-size: clamp(5rem, 15vw, 8rem);
+            opacity: 0.1;
+            right: -5%;
+            top: -10%;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 6vw, 2.6rem);
+            font-weight: 800;
+            color: #0369a1;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            color: #0284c7;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sleek Navigation */
+        .nav-container {
+            padding: 10px 20px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--butter-yellow) 80%, transparent 100%);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+        
+        .nav-container::-webkit-scrollbar { display: none; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            background: #FFFFFF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .nav-btn.active {
+            background: var(--powder-blue-rich);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 195, 247, 0.4);
+        }
+
+        /* Interactive Progress Bar */
+        .progress-container {
+            max-width: 200px;
+            margin: 10px auto 20px;
+            height: 6px;
+            background: rgba(179, 229, 252, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--powder-blue-rich);
+            width: 12.5%; /* 1 of 8 days */
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Advanced Slider Container */
+        .slider-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .days-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            padding: 20px calc(50% - min(45%, 400px));
+            gap: 15px;
+        }
+
+        .days-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Day Sections - Cover Flow Effect */
+        .day-section {
+            flex: 0 0 90%;
+            max-width: 800px;
+            scroll-snap-align: center;
+            opacity: 0.5;
+            transform: scale(0.92);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+
+        .day-section.is-active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        /* Navigation Arrows */
+        .arrow-btn {
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--powder-blue-rich);
+            border-radius: 50%;
+            color: #0369a1;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .arrow-btn:hover {
+            background: var(--powder-blue-rich);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow-prev { left: 15px; }
+        .arrow-next { right: 15px; }
+
+        @media (max-width: 768px) {
+            .arrow-btn { display: none; }
+            .day-section { flex: 0 0 88%; }
+        }
+
+        /* Venue Cards */
+        .day-header {
+            margin: 5px 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day-header h2 {
+            color: #0c4a6e;
+            font-size: clamp(1.6rem, 5vw, 2rem);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .date-badge {
+            background-color: var(--powder-blue);
+            color: #0369a1;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px var(--powder-blue-glow);
+        }
+
+        .venue-card {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .venue-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(79, 195, 247, 0.15);
+        }
+
+        .venue-img {
+            width: 120px;
+            min-width: 120px;
+            height: 120px;
+            border-radius: 18px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+            background-color: var(--powder-blue-glow);
+            position: relative;
+        }
+
+        /* Custom placeholder styling for missing local images */
+        .venue-img::after {
+            content: "🌴";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #0c4a6e;
+            z-index: -1;
+        }
+
+        .venue-content {
+            padding: 5px 0 5px 20px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .venue-label {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* Custom Checkbox */
+        .venue-label input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--powder-blue-rich);
+            border-radius: 50%;
+            margin-top: 3px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+
+        .venue-label input[type="checkbox"]:checked {
+            background-color: var(--powder-blue-rich);
+            border-color: var(--powder-blue-rich);
+            transform: scale(1.1);
+        }
+
+        .venue-label input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -45%);
+        }
+
+        .venue-text {
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .venue-label input[type="checkbox"]:checked + .venue-text {
+            opacity: 0.4;
+            transform: translateX(5px);
+        }
+
+        .venue-label input[type="checkbox"]:checked + .venue-text .venue-name {
+            text-decoration: line-through;
+            text-decoration-color: var(--powder-blue-rich);
+            text-decoration-thickness: 2px;
+        }
+
+        .venue-time {
+            display: inline-block;
+            background: var(--butter-yellow-rich);
+            color: #b45309;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .venue-name {
+            display: block;
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .venue-desc {
+            display: block;
+            font-size: clamp(0.9rem, 3vw, 0.95rem);
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .venue-card {
+                flex-direction: column;
+                padding: 12px;
+                border-radius: 20px;
+            }
+            .venue-img {
+                width: 100%;
+                min-width: 100%;
+                height: 180px;
+                margin-bottom: 15px;
+                border-radius: 12px;
+            }
+            .venue-content {
+                padding: 0 5px;
+            }
+        }
+
+        /* 📸 Photo Quest */
+        .photo-quest {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(79, 195, 247, 0.35);
+        }
+        .photo-quest-btn {
+            appearance: none;
+            border: 0;
+            border-radius: 14px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #4FC3F7, #0284c7);
+            color: white;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 5px 14px rgba(2, 132, 199, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .photo-quest-btn:hover { transform: translateY(-2px); }
+        .photo-quest-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .photo-quest-status {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            vertical-align: middle;
+        }
+        .photo-gallery {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .photo-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            cursor: pointer;
+        }
+        .photo-quest-label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #0369a1;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .photo-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.82);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .photo-lightbox.open { display: flex; }
+        .photo-lightbox img {
+            max-width: min(95vw, 900px);
+            max-height: 85vh;
+            border-radius: 18px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.35);
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 18px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 50%;
+            background: white;
+            color: #0c4a6e;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            .photo-quest-btn { width: 100%; }
+            .photo-quest-status { display: block; margin: 6px 0 0; }
+        }
+    
+        /* Photo Quest */
+        .photo-quest {
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .photo-btn {
+            border: 0;
+            background: var(--powder-blue);
+            color: #0369a1;
+            padding: 9px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+        }
+        .photo-btn:active { transform: scale(.97); }
+        .photo-status {
+            font-size: .78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .venue-card-inner {
+            display: flex;
+            width: 100%;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            .photo-quest {
+                margin-top: 2px;
+            }
+        }
+        .venue-img.has-user-photo {
+            object-fit: cover;
+        }
+        .photo-input { display:none; }
+
+</style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>The Phuket List</h1>
+        <p>Cousins Trip • Nov 18-25</p>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-tabs">
+            <button class="nav-btn active" onclick="scrollToDay('day1')" data-target="day1">Day 1</button>
+            <button class="nav-btn" onclick="scrollToDay('day2')" data-target="day2">Day 2</button>
+            <button class="nav-btn" onclick="scrollToDay('day3')" data-target="day3">Day 3</button>
+            <button class="nav-btn" onclick="scrollToDay('day4')" data-target="day4">Day 4</button>
+            <button class="nav-btn" onclick="scrollToDay('day5')" data-target="day5">Day 5</button>
+            <button class="nav-btn" onclick="scrollToDay('day6')" data-target="day6">Day 6</button>
+            <button class="nav-btn" onclick="scrollToDay('day7')" data-target="day7">Day 7</button>
+            <button class="nav-btn" onclick="scrollToDay('day8')" data-target="day8">Day 8</button>
+        </div>
+    </div>
+
+    <!-- Interactive Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="slider-wrapper">
+        <!-- Desktop Navigation Arrows -->
+        <button class="arrow-btn arrow-prev" onclick="slideBy(-1)">❮</button>
+        <button class="arrow-btn arrow-next" onclick="slideBy(1)">❯</button>
+
+        <div class="days-slider" id="daysSlider">
+            
+            <!-- DAY 1 -->
+            <div id="day1" class="day-section is-active">
+                <div class="day-header">
+                    <h2>Arrival & Settle In</h2>
+                    <span class="date-badge">Wed, Nov 18</span>
+                </div>
+                
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day1-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Airport" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d1-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">Night</span>
+                                <span class="venue-name">Touchdown in Phuket</span>
+                                <span class="venue-desc">Arrive late at HKT. Grab a direct taxi to the accommodation in Kata/Karon.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day1-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Resort Room" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d1-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">Late Night</span>
+                                <span class="venue-name">Check-in</span>
+                                <span class="venue-desc">Settle into the rooms and get some much-needed rest for the week ahead!</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+            </div>
+
+            <!-- DAY 2 -->
+            <div id="day2" class="day-section">
+                <div class="day-header">
+                    <h2>Views & Night Market</h2>
+                    <span class="date-badge">Thu, Nov 19</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day2-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Big Buddha" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d2-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">11:30 AM</span>
+                                <span class="venue-name">Big Buddha</span>
+                                <span class="venue-desc">Slow morning by the pool first, then head up the mountain for sweeping daytime views.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day2-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Phromthep Cape" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d2-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">5:00 PM</span>
+                                <span class="venue-name">Phromthep Cape</span>
+                                <span class="venue-desc">Arrive early to secure a prime spot on the upper deck for the famous sunset view.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day2-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Kata Night Market" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d2-t3">
+                            <div class="venue-text">
+                                <span class="venue-time">Evening</span>
+                                <span class="venue-name">Kata Night Market</span>
+                                <span class="venue-desc">Grab a casual, easy local dinner near the accommodation to end the night.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DAY 3 -->
+            <div id="day3" class="day-section">
+                <div class="day-header">
+                    <h2>Islands & Longtails</h2>
+                    <span class="date-badge">Fri, Nov 20</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day3-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Longtail Boat" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d3-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">Day</span>
+                                <span class="venue-name">Phi Phi Longtail Boat</span>
+                                <span class="venue-desc">Ferry to Phi Phi Don, then board a Private Longtail for 4 hours exploring Pileh Lagoon and Maya Bay.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day3-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Temple Market" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d3-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">Evening</span>
+                                <span class="venue-name">Karon Temple Market</span>
+                                <span class="venue-desc">Authentic street food and local shopping right at the beautiful temple grounds.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DAY 4 -->
+            <div id="day4" class="day-section">
+                <div class="day-header">
+                    <h2>Phang Nga Bay</h2>
+                    <span class="date-badge">Sat, Nov 21</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day4-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Limestone Cliffs" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d4-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">Day</span>
+                                <span class="venue-name">Catamaran & Sea Caves</span>
+                                <span class="venue-desc">Large catamaran trip to see towering Krabi-style cliffs, with guided canoes through hidden caves.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day4-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Street Food" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d4-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">7:00 PM</span>
+                                <span class="venue-name">Go Benz Michelin Food</span>
+                                <span class="venue-desc">Legendary Michelin street food famous for crispy pork. Walk it off at Chillva Market!</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DAY 5 -->
+            <div id="day5" class="day-section">
+                <div class="day-header">
+                    <h2>Spa & Old Town</h2>
+                    <span class="date-badge">Sun, Nov 22</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day5-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Spa" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d5-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">11:00 AM</span>
+                                <span class="venue-name">Rejuvenating Spa</span>
+                                <span class="venue-desc">Traditional Thai massage and spa treatments to unwind after the back-to-back island days.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day5-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Old Town" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d5-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">3:30 PM</span>
+                                <span class="venue-name">Old Town Aesthetics</span>
+                                <span class="venue-desc">Grab smoothies at Hey! Mango, then hit Torry's Ice Cream for Sino-Portuguese vintage vibes.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day5-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Lard Yai Market" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d5-t3">
+                            <div class="venue-text">
+                                <span class="venue-time">6:45 PM</span>
+                                <span class="venue-name">Michelin Dinner & Lard Yai</span>
+                                <span class="venue-desc">Dinner at Tu Kab Khao or Raya, followed by the massive Lard Yai Sunday Walking Street.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+            </div>
+
+            <!-- DAY 6 -->
+            <div id="day6" class="day-section">
+                <div class="day-header">
+                    <h2>Jungle & Carnival</h2>
+                    <span class="date-badge">Mon, Nov 23</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day6-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Jungle Canopy" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d6-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">Morning</span>
+                                <span class="venue-name">Hanuman World</span>
+                                <span class="venue-desc">High-adrenaline ziplines for thrill-seekers, or the beautiful canopy Sky Walk for a relaxed pace.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day6-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Carnival Lights" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d6-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">Evening</span>
+                                <span class="venue-name">Carnival Magic</span>
+                                <span class="venue-desc">Massive theme park light displays, parades, flat walking paths, and a grand buffet dinner.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+            </div>
+
+            <!-- DAY 7 -->
+            <div id="day7" class="day-section">
+                <div class="day-header">
+                    <h2>Beach Club & Clubs</h2>
+                    <span class="date-badge">Tue, Nov 24</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day7-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Beach Lounge" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d7-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">11:30 AM</span>
+                                <span class="venue-name">Tann Terrace Brunch</span>
+                                <span class="venue-desc">Aesthetic beachfront brunch with modern bohemian design right on the sand.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day7-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Fire Spinner" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d7-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">6:30 PM</span>
+                                <span class="venue-name">Fuga Beach Club Fire Show</span>
+                                <span class="venue-desc">Sunset cocktails and live DJ, followed by the famous beach fire show at 8:00 PM.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day7-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Neon Club" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d7-t3">
+                            <div class="venue-text">
+                                <span class="venue-time">10:30 PM</span>
+                                <span class="venue-name">Bangla Road Clubs</span>
+                                <span class="venue-desc">Walk over to Patong's superclubs! Hit up Illuzion for EDM or Sugar Club for hip-hop.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DAY 8 -->
+            <div id="day8" class="day-section">
+                <div class="day-header">
+                    <h2>Departure</h2>
+                    <span class="date-badge">Wed, Nov 25</span>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day8-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Breakfast" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d8-t1">
+                            <div class="venue-text">
+                                <span class="venue-time">Morning</span>
+                                <span class="venue-name">Final Breakfast</span>
+                                <span class="venue-desc">Enjoy one last meal at the accommodation before packing up.</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+<div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+
+                <div class="venue-card">
+                    <div class="venue-card-inner">
+                    <img src="img/day8-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Airplane" data-venue-img>
+                    <div class="venue-content">
+                        <label class="venue-label">
+                            <input type="checkbox" id="d8-t2">
+                            <div class="venue-text">
+                                <span class="venue-time">Day</span>
+                                <span class="venue-name">Flight Home</span>
+                                <span class="venue-desc">Take a taxi back to Phuket International Airport (HKT). Safe travels!</span>
+                            
+                                </div>
+                        </label>
+                    </div>
+                    </div>
+                    <div class="photo-quest">
+                                    <button type="button" class="photo-btn" onclick="openPhotoQuest(this)">Take Photo</button>
+                                    <span class="photo-status">Photo Quest</span>
+                                    <input class="photo-input" type="file" accept="image/*" capture="environment" onchange="uploadVenuePhoto(this)">
+                                </div>
+                </div>
+            </div>
+
+        </div> <!-- end slider -->
+    </div>
+
+
+
+    <div id="photoLightbox" class="photo-lightbox" onclick="if(event.target === this) closePhotoLightbox()">
+        <button class="lightbox-close" onclick="closePhotoLightbox()" aria-label="Close">×</button>
+        <img id="lightboxImage" src="" alt="Trip photo">
+    </div>
+
+    <!-- Firebase Photo Quest: enable Authentication (Anonymous), Firestore and Storage in your Firebase project. -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+        /*
+         * ============================================================
+         * FIREBASE CONFIG — replace these values with your Firebase
+         * project's Web App config from Firebase Console.
+         * ============================================================
+         */
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.firebasestorage.app",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const firebaseReady = !Object.values(firebaseConfig).some(value =>
+            String(value).startsWith("YOUR_")
+        );
+
+        let db = null;
+        let storage = null;
+        let auth = null;
+        let currentUser = null;
+
+        if (firebaseReady) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                storage = getStorage(app);
+
+                onAuthStateChanged(auth, user => {
+                    currentUser = user;
+                    document.querySelectorAll(".photo-quest-btn").forEach(btn => {
+                        btn.disabled = !user;
+                    });
+                    if (user) {
+                        document.querySelectorAll(".photo-quest-status").forEach(el => {
+                            if (el.dataset.status === "config") el.textContent = "Ready — tap to capture your trip photo!";
+                        });
+                    }
+                });
+
+                signInAnonymously(auth).catch(error => {
+                    console.error("Firebase anonymous sign-in failed:", error);
+                    document.querySelectorAll(".photo-quest-status").forEach(el => {
+                        el.textContent = "Firebase sign-in failed — check Anonymous Auth.";
+                    });
+                });
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+            }
+        }
+
+        window.photoQuest = {
+            firebaseReady,
+            get db() { return db; },
+            get storage() { return storage; },
+            get user() { return currentUser; },
+            uploadPhoto: async function(venueId, venueName, file, statusEl) {
+                if (!firebaseReady || !db || !storage || !currentUser) {
+                    statusEl.textContent = "Connect Firebase first to save photos.";
+                    return;
+                }
+
+                if (!file || !file.type.startsWith("image/")) {
+                    statusEl.textContent = "Please choose an image.";
+                    return;
+                }
+
+                if (file.size > 10 * 1024 * 1024) {
+                    statusEl.textContent = "Photo is too large. Keep it under 10 MB.";
+                    return;
+                }
+
+                try {
+                    statusEl.textContent = "Uploading…";
+                    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+                    const filePath = `photo-quest/${venueId}/${currentUser.uid}/${Date.now()}-${safeName}`;
+                    const storageRef = ref(storage, filePath);
+
+                    await uploadBytes(storageRef, file, {
+                        contentType: file.type,
+                        customMetadata: { venueId, venueName }
+                    });
+
+                    const photoUrl = await getDownloadURL(storageRef);
+
+                    await addDoc(collection(db, "photoQuest"), {
+                        venueId,
+                        venueName,
+                        photoUrl,
+                        storagePath: filePath,
+                        userId: currentUser.uid,
+                        createdAt: serverTimestamp()
+                    });
+
+                    statusEl.textContent = "📸 Photo saved! Nice one.";
+                    await window.photoQuest.loadGallery(venueId);
+                } catch (error) {
+                    console.error("Photo upload failed:", error);
+                    statusEl.textContent = "Upload failed — check Firebase rules.";
+                }
+            },
+            loadGallery: async function(venueId) {
+                if (!firebaseReady || !db) return;
+                const gallery = document.querySelector(`[data-gallery="${venueId}"]`);
+                if (!gallery) return;
+
+                try {
+                    const q = query(
+                        collection(db, "photoQuest"),
+                        where("venueId", "==", venueId),
+                        orderBy("createdAt", "desc")
+                    );
+                    const snapshot = await getDocs(q);
+                    gallery.innerHTML = "";
+
+                    snapshot.forEach(docSnap => {
+                        const data = docSnap.data();
+                        const img = document.createElement("img");
+                        img.className = "photo-thumb";
+                        img.src = data.photoUrl;
+                        img.alt = `Photo from ${data.venueName || venueId}`;
+                        img.loading = "lazy";
+                        img.onclick = () => window.openPhotoLightbox(data.photoUrl);
+                        gallery.appendChild(img);
+                    });
+                } catch (error) {
+                    // Firestore may initially ask for a composite/index configuration.
+                    console.warn("Could not load photo gallery:", error);
+                }
+            }
+        };
+
+        window.openPhotoLightbox = function(url) {
+            const box = document.getElementById("photoLightbox");
+            const image = document.getElementById("lightboxImage");
+            image.src = url;
+            box.classList.add("open");
+        };
+
+        window.closePhotoLightbox = function() {
+            document.getElementById("photoLightbox").classList.remove("open");
+        };
+    </script>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.firebasestorage.app",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        signInAnonymously(auth).then(cred => {
+            currentUser = cred.user;
+            restoreVenuePhotos();
+        }).catch(err => console.warn("Firebase auth not configured yet:", err));
+
+        function venueKey(input) {
+            return input.closest(".venue-card").querySelector("input[type='checkbox']").id;
+        }
+
+        window.openPhotoQuest = function(button) {
+            const input = button.parentElement.querySelector(".photo-input");
+            input.click();
+        };
+
+        window.uploadVenuePhoto = async function(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            const card = input.closest(".venue-card");
+            const img = card.querySelector(".venue-img");
+            const status = card.querySelector(".photo-status");
+            const checkbox = card.querySelector("input[type='checkbox']");
+            const key = venueKey(input);
+
+            // Immediate local preview: the uploaded photo becomes the square venue image.
+            const localUrl = URL.createObjectURL(file);
+            img.src = localUrl;
+            img.classList.add("has-user-photo");
+            status.textContent = "Uploading…";
+
+            if (!currentUser) {
+                status.textContent = "Firebase not connected";
+                return;
+            }
+
+            try {
+                const storageRef = ref(storage, `phuket-photo-quest/${key}/${Date.now()}-${file.name}`);
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+
+                await setDoc(doc(db, "phuketPhotoQuest", key), {
+                    venueId: key,
+                    photoUrl: url,
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                img.src = url;
+                checkbox.checked = true;
+                checkbox.dispatchEvent(new Event("change"));
+                status.textContent = "📸 Photo saved!";
+            } catch (error) {
+                console.error(error);
+                status.textContent = "Upload failed — photo kept on this device";
+            }
+        };
+
+        async function restoreVenuePhotos() {
+            const cards = document.querySelectorAll(".venue-card");
+            for (const card of cards) {
+                const checkbox = card.querySelector("input[type='checkbox']");
+                const img = card.querySelector(".venue-img");
+                if (!checkbox || !img) continue;
+
+                try {
+                    const snap = await getDoc(doc(db, "phuketPhotoQuest", checkbox.id));
+                    if (snap.exists() && snap.data().photoUrl) {
+                        img.src = snap.data().photoUrl;
+                        img.classList.add("has-user-photo");
+                        const checkbox = card.querySelector("input[type='checkbox']");
+                        if (checkbox) checkbox.checked = true;
+                        const status = card.querySelector(".photo-status");
+                        if (status) status.textContent = "📸 Photo saved!";
+                    }
+                } catch (e) {
+                    console.warn("Could not restore photo for", checkbox.id, e);
+                }
+            }
+        }
+    </script>
+
+    <script>
+        const slider = document.getElementById('daysSlider');
+        const sections = document.querySelectorAll('.day-section');
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const progressBar = document.getElementById('progressBar');
+
+        // Arrow Navigation
+        function slideBy(direction) {
+            const slideWidth = sections[0].offsetWidth + 15; // card width + gap
+            slider.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+        }
+
+        // Tab click scrolling
+        function scrollToDay(dayId) {
+            const targetDay = document.getElementById(dayId);
+            const scrollPos = targetDay.offsetLeft - (slider.offsetWidth / 2) + (targetDay.offsetWidth / 2);
+            slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        }
+
+        // Intersection Observer to detect which slide is active
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: slider,
+                threshold: 0.6 
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const activeId = entry.target.id;
+                        const activeIndex = Array.from(sections).indexOf(entry.target);
+                        
+                        // Handle Scale/Fade effect
+                        sections.forEach(sec => sec.classList.remove('is-active'));
+                        entry.target.classList.add('is-active');
+
+                        // Handle Nav Button Highlight
+                        navBtns.forEach(btn => {
+                            btn.classList.remove('active');
+                            if(btn.dataset.target === activeId) {
+                                btn.classList.add('active');
+                                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                            }
+                        });
+
+                        // Handle Progress Bar
+                        const progressPercentage = ((activeIndex + 1) / sections.length) * 100;
+                        progressBar.style.width = progressPercentage + '%';
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(sec => observer.observe(sec));
+
+
+            // Add a 📸 Photo Quest to every venue card.
+            const venueCards = document.querySelectorAll('.venue-card');
+            venueCards.forEach((card, index) => {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                const nameEl = card.querySelector('.venue-name');
+                if (!checkbox || !nameEl) return;
+
+                const venueId = checkbox.id;
+                const venueName = nameEl.textContent.trim();
+
+                const quest = document.createElement('div');
+                quest.className = 'photo-quest';
+                quest.innerHTML = `
+                    <span class="photo-quest-label">📸 Photo Quest</span>
+                    <button type="button" class="photo-quest-btn" id="photo-btn-${venueId}" disabled>
+                        📷 Take Photo at ${venueName}
+                    </button>
+                    <span class="photo-quest-status" data-status="config">Connect Firebase to save your photos.</span>
+                    <input type="file" id="photo-input-${venueId}" accept="image/*" capture="environment" hidden>
+                    <div class="photo-gallery" data-gallery="${venueId}"></div>
+                `;
+
+                const content = card.querySelector('.venue-content');
+                content.appendChild(quest);
+
+                const btn = quest.querySelector('.photo-quest-btn');
+                const input = quest.querySelector('input[type="file"]');
+                const status = quest.querySelector('.photo-quest-status');
+
+                btn.addEventListener('click', () => input.click());
+                input.addEventListener('change', async e => {
+                    const file = e.target.files[0];
+                    if (file) await window.photoQuest.uploadPhoto(venueId, venueName, file, status);
+                    input.value = '';
+                });
+
+                if (window.photoQuest.firebaseReady) {
+                    status.textContent = "Signing you in…";
+                }
+                window.photoQuest.loadGallery(venueId);
+            });
+        });
+});
+    </script>
+</body>
+</html>
