@@ -1390,10 +1390,12 @@
 
     <!-- 📸 Trip Quest: photo proof + Firebase sync -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-        import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject, setMaxUploadRetryTime, setMaxOperationRetryTime } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+        // Firebase is loaded on demand, so the photo buttons always appear
+        // even if Firebase can't be reached (slow network, ad blocker, etc.).
+        const FB = "https://www.gstatic.com/firebasejs/10.12.5/";
+        let initializeApp, getAuth, signInAnonymously, onAuthStateChanged;
+        let getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp;
+        let getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject;
 
         const cfg = window.TRIP_FIREBASE_CONFIG || {};
         const TRIP_ID = window.TRIP_ID || "phuket-2026";
@@ -1787,14 +1789,34 @@
         if (!configured) {
             showBanner("Photo quests are off. Paste your Firebase details into <code>firebase-config.js</code> to switch them on.");
         } else {
+            startFirebase();
+        }
+
+        async function startFirebase() {
+            try {
+                const [appMod, authMod, fsMod, stMod] = await Promise.all([
+                    import(FB + "firebase-app.js"),
+                    import(FB + "firebase-auth.js"),
+                    import(FB + "firebase-firestore.js"),
+                    import(FB + "firebase-storage.js")
+                ]);
+                ({ initializeApp } = appMod);
+                ({ getAuth, signInAnonymously, onAuthStateChanged } = authMod);
+                ({ getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp } = fsMod);
+                ({ getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } = stMod);
+            } catch (err) {
+                console.error("Couldn't load Firebase:", err);
+                showBanner("Couldn't load Firebase. Check your internet connection (or turn off any ad blocker) and reload.");
+                return;
+            }
             try {
                 const app = initializeApp(cfg);
                 const auth = getAuth(app);
                 db = getFirestore(app);
                 storage = getStorage(app);
                 // Fail fast with a clear message instead of silently retrying for ~10 minutes.
-                setMaxUploadRetryTime(storage, 30000);
-                setMaxOperationRetryTime(storage, 20000);
+                storage.maxUploadRetryTime = 30000;
+                storage.maxOperationRetryTime = 20000;
                 photosCol = collection(db, "trips", TRIP_ID, "photos");
                 checklistCol = collection(db, "trips", TRIP_ID, "checklist");
 
