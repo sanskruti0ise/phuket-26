@@ -1,0 +1,11 @@
+{
+  "name": "The Phuket List",
+  "short_name": "Phuket List",
+  "description": "Our Phuket trip quest: itinerary, photo quests and memories.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFDE7",
+  "theme_color": "#B3E5FC"
+}
