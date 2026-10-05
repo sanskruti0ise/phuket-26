@@ -872,6 +872,44 @@
         .quest-leaders span.me { background: var(--powder-blue); color: #0369a1; }
 
 
+
+        /* ============ Day 0: pre-trip checklist ============ */
+        .prep-summary {
+            display: flex; align-items: center; gap: 10px; margin: 0 4px 14px;
+            font-weight: 800; font-size: 0.85rem; color: #0369a1;
+        }
+        .prep-bar { flex: 1; height: 6px; border-radius: 3px; background: rgba(179,229,252,0.5); overflow: hidden; }
+        .prep-bar i { display: block; height: 100%; width: 0; background: var(--powder-blue-rich); border-radius: 3px; transition: width 0.4s ease; }
+        .prep-group {
+            background: var(--card-bg); border-radius: 20px; padding: 6px 14px 4px; margin-bottom: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.5);
+        }
+        .prep-group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 8px 0 4px; }
+        .prep-group-head h3 { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); }
+        .prep-group-head span { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); text-align: right; }
+        .prep-item.venue-label {
+            display: flex; align-items: flex-start; gap: 0; padding: 10px 0;
+            border-top: 1px solid rgba(148,163,184,0.18); cursor: pointer;
+        }
+        .prep-item.venue-label input[type="checkbox"] { width: 24px; height: 24px; margin: 1px 12px 0 0; }
+        .prep-item.venue-label input[type="checkbox"]:checked::after { font-size: 13px; }
+        .prep-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .prep-name { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; line-height: 1.3; transition: opacity 0.2s; }
+        .prep-hint { font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; }
+        .prep-link { font-size: 0.8rem; font-weight: 700; color: #0284c7; text-decoration: none; margin-top: 2px; align-self: flex-start; }
+        .prep-item input:checked + .prep-text .prep-name {
+            text-decoration: line-through; text-decoration-color: var(--powder-blue-rich); text-decoration-thickness: 2px; opacity: 0.5;
+        }
+        .prep-item input:checked + .prep-text .prep-hint { opacity: 0.5; }
+        .home-group { margin-top: 2px; }
+        .prep-shared {
+            display: inline-block; vertical-align: 2px; margin-left: 4px;
+            font-size: 0.62rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+            color: #0369a1; background: var(--powder-blue); padding: 2px 6px; border-radius: 6px;
+        }
+        .prep-item input:checked + .prep-text .prep-name .prep-shared { text-decoration: none; }
+
+
         /* ============ Compact top area ============ */
         .header {
             padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 14px;
@@ -900,14 +938,15 @@
 
     <div class="nav-container">
         <div class="nav-tabs">
-            <button class="nav-btn active" onclick="scrollToDay('day1')" data-target="day1">Day 1</button>
-            <button class="nav-btn" onclick="scrollToDay('day2')" data-target="day2">Day 2</button>
-            <button class="nav-btn" onclick="scrollToDay('day3')" data-target="day3">Day 3</button>
-            <button class="nav-btn" onclick="scrollToDay('day4')" data-target="day4">Day 4</button>
-            <button class="nav-btn" onclick="scrollToDay('day5')" data-target="day5">Day 5</button>
-            <button class="nav-btn" onclick="scrollToDay('day6')" data-target="day6">Day 6</button>
-            <button class="nav-btn" onclick="scrollToDay('day7')" data-target="day7">Day 7</button>
-            <button class="nav-btn" onclick="scrollToDay('day8')" data-target="day8">Day 8</button>
+            <button class="nav-btn" data-target="day0">Checklist</button>
+            <button class="nav-btn active" data-target="day1">Day 1</button>
+            <button class="nav-btn" data-target="day2">Day 2</button>
+            <button class="nav-btn" data-target="day3">Day 3</button>
+            <button class="nav-btn" data-target="day4">Day 4</button>
+            <button class="nav-btn" data-target="day5">Day 5</button>
+            <button class="nav-btn" data-target="day6">Day 6</button>
+            <button class="nav-btn" data-target="day7">Day 7</button>
+            <button class="nav-btn" data-target="day8">Day 8</button>
         </div>
     </div>
 
@@ -923,11 +962,159 @@
 
     <div class="slider-wrapper">
         <!-- Desktop Navigation Arrows -->
-        <button class="arrow-btn arrow-prev" onclick="slideBy(-1)">❮</button>
-        <button class="arrow-btn arrow-next" onclick="slideBy(1)">❯</button>
+        <button class="arrow-btn arrow-prev" data-dir="-1">❮</button>
+        <button class="arrow-btn arrow-next" data-dir="1">❯</button>
 
         <div class="days-slider" id="daysSlider">
             
+            <!-- DAY 0 -->
+            <div id="day0" class="day-section" data-prep>
+                <div class="day-header">
+                    <h2>Trip Checklist</h2>
+                    <span class="date-badge">Before &amp; after</span>
+                </div>
+                <div class="prep-summary"><span id="prepCount">0 / 0 ready</span><div class="prep-bar"><i id="prepBar"></i></div></div>
+                <div class="prep-group">
+                    <div class="prep-group-head"><h3>Documents</h3><span>Just for you, saved on this phone</span></div>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="passport" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Passport</span><span class="prep-hint">Valid for at least 6 months after Nov 25, 2026, with blank pages.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="tdac" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">TDAC (Thailand Digital Arrival Card)</span><span class="prep-hint">Free online form, submit within 3 days before landing (Nov 15 to 18). Save the QR code.</span><a class="prep-link" href="https://tdac.immigration.go.th" target="_blank" rel="noopener">Open official site ↗</a></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="visa" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Visa check</span><span class="prep-hint">Confirm the entry rules for your passport well before flying.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="insurance" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Travel insurance</span><span class="prep-hint">Check it covers boat trips and ziplining.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="tickets" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Flight tickets <span class="prep-shared">Shared</span></span><span class="prep-hint">Booked for everyone. Share the PNR in the group chat and save it offline.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="copies" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Document copies</span><span class="prep-hint">Photos of passport, insurance and bookings saved offline.</span></span>
+                    </label>
+                </div>
+                <div class="prep-group">
+                    <div class="prep-group-head"><h3>Money & phone</h3><span>Just for you, saved on this phone</span></div>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="baht" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Thai baht in cash</span><span class="prep-hint">For markets, longtails, taxis and tips.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="card" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Bank card ready</span><span class="prep-hint">International use switched on; bank told you're travelling.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="esim" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">eSIM or roaming</span><span class="prep-hint">Data sorted before you land.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="adapter" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Plug adapter</span><span class="prep-hint">Thai sockets are 220V; check your plugs fit.</span></span>
+                    </label>
+                </div>
+                <div class="prep-group">
+                    <div class="prep-group-head"><h3>Group bookings</h3><span>Ticked for everyone</span></div>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-stay" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Accommodation in Kathu</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-airport" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Airport taxi transfer</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-phiphi" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Phi Phi catamaran + private longtail</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-phangnga" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Phang Nga Bay catamaran tour</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-elephant" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Phuket Elephant Sanctuary</span><span class="prep-hint">Book the slot closest to 10:30 AM.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-spa" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Spa booking</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-hanuman" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Hanuman World</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-carnival" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Carnival Magic</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-tiger" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Tiger Kingdom</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="b-brunch" data-scope="shared">
+                        <span class="prep-text"><span class="prep-name">Tann Terrace & Fuga reservations</span></span>
+                    </label>
+                </div>
+                <div class="prep-group">
+                    <div class="prep-group-head"><h3>Packing</h3><span>Just for you, saved on this phone</span></div>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="sunscreen" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Reef-safe sunscreen</span><span class="prep-hint">For the two boat days.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="swim" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Swimwear & quick-dry clothes</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="temple" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Temple outfit</span><span class="prep-hint">Shoulders and knees covered for Big Buddha.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="shoes" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Comfy shoes</span><span class="prep-hint">For the sanctuary, ziplines and night markets.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="pouch" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Waterproof phone pouch</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-prep-id="meds" data-scope="mine">
+                        <span class="prep-text"><span class="prep-name">Medicines</span><span class="prep-hint">Motion-sickness tablets for the boats, plus personal meds.</span></span>
+                    </label>
+                </div>
+                <div class="prep-group home-group">
+                    <div class="prep-group-head"><h3>Flying home</h3><span>For the end of the trip, just for you</span></div>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="india-form">
+                        <span class="prep-text"><span class="prep-name">Air Suvidha (India arrival form)</span><span class="prep-hint">Fill in the form for your return to India before the flight home, if it applies to you.</span><a class="prep-link" href="https://airsuvidha.civilaviation.gov.in/" target="_blank" rel="noopener">Open official site ↗</a></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="customs">
+                        <span class="prep-text"><span class="prep-name">Customs allowance</span><span class="prep-hint">Over the duty-free limit? Declare on the ATITHI app or use the red channel.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="checkin">
+                        <span class="prep-text"><span class="prep-name">Web check-in done</span><span class="prep-hint">Boarding passes saved offline.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="docs-home">
+                        <span class="prep-text"><span class="prep-name">Passport & documents packed</span><span class="prep-hint">Keep them in your hand luggage.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="baht-left">
+                        <span class="prep-text"><span class="prep-name">Leftover baht</span><span class="prep-hint">Spend it at the airport or keep it for next time.</span></span>
+                    </label>
+                </div>
+            </div>
+
             <!-- DAY 1 -->
             <div id="day1" class="day-section is-active">
                 <div class="day-header">
@@ -976,7 +1163,7 @@
                             <div class="venue-text">
                                 <span class="venue-time">Night</span>
                                 <span class="venue-name">Touchdown in Phuket</span>
-                                <span class="venue-desc">Arrive late at HKT. Grab a direct taxi to the accommodation in Kata/Karon.</span>
+                                <span class="venue-desc">Arrive late at HKT. Grab a direct taxi to our place in Kathu.</span>
                             
                                 </div>
                         </label>
@@ -1150,7 +1337,7 @@
                             <div class="venue-text">
                                 <span class="venue-time">Evening</span>
                                 <span class="venue-name">Kata Night Market</span>
-                                <span class="venue-desc">Browse the stalls for snacks, souvenirs and people-watching near the accommodation.</span>
+                                <span class="venue-desc">Browse the stalls for snacks, souvenirs and people-watching down in Kata.</span>
                             
                                 </div>
                         </label>
@@ -1936,9 +2123,17 @@
 
         function scrollToDay(dayId) {
             const targetDay = document.getElementById(dayId);
+            if (!targetDay || !slider) return;
             const scrollPos = targetDay.offsetLeft - (slider.offsetWidth / 2) + (targetDay.offsetWidth / 2);
             slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
         }
+
+        // Buttons are wired up here (no inline onclick), so an early tap can never hit an undefined function.
+        window.scrollToDay = scrollToDay;
+        window.slideBy = slideBy;
+        navBtns.forEach(btn => btn.addEventListener('click', () => scrollToDay(btn.dataset.target)));
+        document.querySelectorAll('.arrow-btn[data-dir]').forEach(btn =>
+            btn.addEventListener('click', () => slideBy(Number(btn.dataset.dir))));
 
         document.addEventListener('DOMContentLoaded', () => {
             const observer = new IntersectionObserver(entries => {
@@ -1957,6 +2152,8 @@
                 });
             }, { root: slider, threshold: 0.6 });
             sections.forEach(sec => observer.observe(sec));
+            const day1 = document.getElementById("day1");
+            if (day1) slider.scrollTo({ left: day1.offsetLeft - (slider.offsetWidth / 2) + (day1.offsetWidth / 2), behavior: "instant" });
         });
     </script>
 
@@ -2153,7 +2350,16 @@
             clearTimeout(celebrationTimer);
             celebrationTimer = setTimeout(hideCelebration, 4500);
         }
-        function hideCelebration() { $("celebration").classList.remove("show"); }
+        let nextDayAfterCelebration = null;
+        function hideCelebration() {
+            if (!$("celebration").classList.contains("show")) return;
+            $("celebration").classList.remove("show");
+            if (nextDayAfterCelebration) {
+                const id = nextDayAfterCelebration;
+                nextDayAfterCelebration = null;
+                setTimeout(() => goToDay(id, true), 250);
+            }
+        }
         $("celebrationClose").addEventListener("click", hideCelebration);
         $("celebration").addEventListener("click", e => { if (e.target.id === "celebration") hideCelebration(); });
 
@@ -2175,7 +2381,12 @@
                 const title = day.querySelector(".day-header h2");
                 const dayName = title ? title.firstChild.textContent.trim() : "";
                 const dayNum = day.id.replace("day", "");
-                setTimeout(() => { rain(170); buzz([20, 50, 20, 50, 40]); showCelebration("🎉", `Day ${dayNum} complete!`, `${dayName}: all ${dayBoxes.length} quests done.`); }, 350);
+                const next = document.getElementById("day" + (Number(dayNum) + 1));
+                setTimeout(() => {
+                    rain(170); buzz([20, 50, 20, 50, 40]);
+                    showCelebration("🎉", `Day ${dayNum} complete!`, next ? `${dayName}: all ${dayBoxes.length} quests done. On to Day ${Number(dayNum) + 1}!` : `${dayName}: all ${dayBoxes.length} quests done.`);
+                    nextDayAfterCelebration = next ? next.id : null;
+                }, 350);
             } else {
                 toast(`${CHEERS[(Math.random() * CHEERS.length) | 0]} ${name}`);
             }
@@ -2295,7 +2506,7 @@
         });
 
         // Day counters + quest board containers
-        document.querySelectorAll(".day-section").forEach(sec => {
+        document.querySelectorAll(".day-section:not([data-prep])").forEach(sec => {
             const header = sec.querySelector(".day-header h2");
             if (header && !header.querySelector(".day-count")) {
                 const badge = document.createElement("span");
@@ -2491,7 +2702,92 @@
         const totalPhotos = () => Array.from(photosByVenue.values()).reduce((s, l) => s + l.length, 0);
         const escapeHtml = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-        function renderAll() { venues.forEach((_, id) => render(id)); renderSummary(); }
+        function renderAll() { venues.forEach((_, id) => render(id)); renderSummary(); renderPrep(); maybeOpenDefaultDay(); }
+
+        // ---------- open on the first day that isn't finished yet ----------
+        function dayIsComplete(sec) {
+            const boxes = sec.hasAttribute("data-prep")
+                ? sec.querySelectorAll("[data-prep-id]")
+                : sec.querySelectorAll('.venue-card input[type="checkbox"]');
+            return boxes.length > 0 && Array.from(boxes).every(b => b.checked);
+        }
+        function goToDay(id, smooth) {
+            const slider = $("daysSlider"), target = $(id);
+            if (!slider || !target) return;
+            const left = target.offsetLeft - (slider.offsetWidth / 2) + (target.offsetWidth / 2);
+            slider.scrollTo({ left, behavior: smooth ? "smooth" : "instant" });
+        }
+        // Don't move the page if someone has already started swiping or tapping days.
+        let userPickedDay = false, defaultDayDone = false;
+        ["pointerdown", "touchstart", "wheel"].forEach(ev => {
+            $("daysSlider").addEventListener(ev, () => { userPickedDay = true; }, { passive: true, once: true });
+            document.querySelector(".nav-container").addEventListener(ev, () => { userPickedDay = true; }, { passive: true, once: true });
+        });
+        function maybeOpenDefaultDay() {
+            if (defaultDayDone || userPickedDay) return;
+            // Wait for everyone's ticks to load (or open with what we have if Firebase is off).
+            if (configured && !(loaded.photos && loaded.checklist)) return;
+            defaultDayDone = true;
+            // Day 0 (Trip Checklist) is optional, so only the trip days decide where to open.
+            const days = Array.from(document.querySelectorAll(".day-section:not([data-prep])"));
+            const first = days.find(sec => !dayIsComplete(sec)) || days[days.length - 1];
+            if (first && !first.classList.contains("is-active")) goToDay(first.id, false);
+        }
+
+        // ---------- Day 0: pre-trip checklist (no photos needed) ----------
+        // "Just for you" items are saved on this phone; group bookings are shared with everyone.
+        const prepBoxes = Array.from(document.querySelectorAll("#day0 [data-prep-id]"));
+        prepBoxes.forEach(box => {
+            const pid = box.dataset.prepId;
+            if (box.dataset.scope === "mine") box.checked = store.get("prep:" + pid) === "1";
+            box.addEventListener("click", e => {
+                if (box.dataset.scope === "shared") {
+                    if (!configured || !user) {
+                        e.preventDefault();
+                        toast(configured ? "Still connecting… try again in a second." : "Group bookings need Firebase connected.");
+                        return;
+                    }
+                    checked["prep-" + pid] = box.checked;
+                    setDoc(doc(checklistCol, "prep-" + pid), { checked: box.checked, uid: user.uid, at: serverTimestamp() })
+                        .catch(err => { console.error(err); toast("Couldn't save that tick. Check your connection."); });
+                } else {
+                    store.set("prep:" + pid, box.checked ? "1" : "0");
+                }
+                if (box.checked) {
+                    const r = box.getBoundingClientRect();
+                    burst(r.left + r.width / 2, r.top + r.height / 2, 24, 0.7);
+                    buzz(12);
+                }
+                renderPrep(true);
+            });
+        });
+        // Day 8 "Flying home" checklist: personal ticks, no photos.
+        document.querySelectorAll("[data-home-id]").forEach(box => {
+            box.checked = store.get("home:" + box.dataset.homeId) === "1";
+            box.addEventListener("click", () => {
+                store.set("home:" + box.dataset.homeId, box.checked ? "1" : "0");
+                if (box.checked) {
+                    const r = box.getBoundingClientRect();
+                    burst(r.left + r.width / 2, r.top + r.height / 2, 20, 0.6);
+                    buzz(12);
+                }
+            });
+        });
+
+        function renderPrep(fromTap) {
+            if (!prepBoxes.length) return;
+            prepBoxes.forEach(b => { if (b.dataset.scope === "shared") b.checked = Boolean(checked["prep-" + b.dataset.prepId]); });
+            const done = prepBoxes.filter(b => b.checked).length;
+            $("prepCount").textContent = `${done} / ${prepBoxes.length} ready`;
+            $("prepBar").style.width = (done / prepBoxes.length * 100) + "%";
+            if (fromTap === true && done === prepBoxes.length) {
+                setTimeout(() => {
+                    rain(170);
+                    showCelebration("✈️", "Ready for Phuket!", "Everything's packed, booked and sorted. See you at the airport.");
+                    nextDayAfterCelebration = "day1";
+                }, 300);
+            }
+        }
 
         // If every photo of a completed quest gets deleted, the tick goes away too.
         function enforceRule() {
