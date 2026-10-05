@@ -799,8 +799,9 @@
         }
         .postcards::-webkit-scrollbar { display: none; }
         .postcards[hidden] { display: none; }
+        .postcards { align-items: center; }
         .postcard {
-            flex: 0 0 78%; scroll-snap-align: center; position: relative;
+            flex: 0 0 auto; scroll-snap-align: center; position: relative;
             background: #fff; border: 0; border-radius: 6px; padding: 10px 10px 12px;
             box-shadow: 0 5px 12px rgba(15, 23, 42, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08);
             transform: rotate(var(--tilt, 0deg));
@@ -809,12 +810,17 @@
         }
         .postcard:active { transform: rotate(0deg) scale(0.98); }
         .postcards.single { justify-content: center; }
-        .postcards.single .postcard { flex-basis: 88%; }
         .pc-photo {
-            display: block; position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+            display: block; position: relative; overflow: hidden;
             border-radius: 3px; background: var(--powder-blue-glow);
         }
-        .pc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        /* Each photo keeps the shape it was taken in (portrait, landscape or square). */
+        .pc-photo img {
+            display: block; width: auto; height: auto;
+            max-width: min(64vw, 380px); max-height: 320px;
+            min-width: 120px; min-height: 120px; object-fit: contain;
+        }
+        .postcards.single .pc-photo img { max-width: min(76vw, 460px); max-height: 380px; }
         .pc-stamp {
             position: absolute; top: 8px; right: 8px; padding: 4px 7px;
             border: 2px dashed rgba(255, 255, 255, 0.9); border-radius: 3px;
@@ -846,7 +852,7 @@
         .pc-dots[hidden] { display: none; }
         .pc-dots i { width: 6px; height: 6px; border-radius: 3px; background: #cbd5e1; transition: all 0.25s ease; }
         .pc-dots i.on { width: 18px; background: #0284c7; }
-        @media (min-width: 601px) { .postcard { flex-basis: 46%; } .postcards.single .postcard { flex-basis: 60%; } }
+
 
         /* Quest board */
         .quest-board {
@@ -895,7 +901,6 @@
     <!-- Quest board -->
     <div class="quest-board" id="questBoard">
         <span class="quest-score" id="questScore">0 quests complete</span>
-        <div class="quest-leaders" id="questLeaders"></div>
     </div>
 
     <div class="slider-wrapper">
@@ -1882,16 +1887,6 @@
         </div>
     </div>
 
-    <!-- "Who's snapping?" sheet, shown once per device -->
-    <div id="nameSheet" class="sheet-backdrop">
-        <div class="sheet">
-            <h3>Who's snapping? 📸</h3>
-            <p>Your name shows on your photos and on the quest board.</p>
-            <input id="nameInput" type="text" maxlength="24" placeholder="Your name" autocomplete="given-name">
-            <button type="button" id="nameSave" class="photo-btn primary">Let's go</button>
-        </div>
-    </div>
-
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <canvas id="confetti" aria-hidden="true"></canvas>
     <div id="celebration" class="celebration" role="dialog" aria-modal="true" aria-labelledby="celebrationTitle">
@@ -1983,28 +1978,18 @@
             get(k) { try { return localStorage.getItem(k); } catch { return null; } },
             set(k, v) { try { localStorage.setItem(k, v); } catch {} }
         };
-        const photoCount = id => (photosByVenue.get(id) || []).length;
+        // Photos that have finished uploading. While a photo is still sending, Firestore
+        // already lists it locally, so it's hidden here to avoid showing it twice.
+        function visiblePhotos(id) {
+            const sending = new Set((pendingByVenue.get(id) || []).map(p => p.docId).filter(Boolean));
+            const list = photosByVenue.get(id) || [];
+            return sending.size ? list.filter(p => !sending.has(p.id)) : list;
+        }
+        const photoCount = id => visiblePhotos(id).length;
         const myName = () => store.get("tripQuestName") || "";
 
-        function ensureName() {
-            if (myName()) return Promise.resolve(myName());
-            return new Promise(resolve => {
-                const sheet = $("nameSheet"), input = $("nameInput"), save = $("nameSave");
-                sheet.classList.add("open");
-                setTimeout(() => input.focus(), 50);
-                const done = () => {
-                    const name = input.value.trim() || "Cousin";
-                    store.set("tripQuestName", name);
-                    sheet.classList.remove("open");
-                    save.removeEventListener("click", done);
-                    input.removeEventListener("keydown", onKey);
-                    resolve(name);
-                };
-                const onKey = e => { if (e.key === "Enter") done(); };
-                save.addEventListener("click", done);
-                input.addEventListener("keydown", onKey);
-            });
-        }
+        // Names aren't shown anywhere, so there's no "who are you?" prompt any more.
+        function ensureName() { return Promise.resolve(myName() || "Cousin"); }
 
         // Photos are stored for free inside Firestore (no paid Storage needed).
         // Each photo is saved twice: a small thumbnail for the cards and a full-size
@@ -2035,7 +2020,7 @@
             let src;
             try { src = await decodeImage(file); }
             catch { throw Object.assign(new Error("decode"), { code: "app/decode" }); }
-            const thumb = toDataUrl(src, 480, 0.7);
+            const thumb = toDataUrl(src, 720, 0.72);
             // Firestore documents max out at 1 MB, so shrink until the full photo fits comfortably.
             let full = null;
             for (const [side, q] of [[1440, 0.75], [1280, 0.7], [1080, 0.65], [900, 0.6]]) {
@@ -2214,10 +2199,7 @@
             checkWrap.setAttribute("aria-label", `Complete ${name}`);
             checkWrap.addEventListener("click", e => e.stopPropagation());
             checkWrap.appendChild(cb);
-            const headThumb = document.createElement("img");
-            headThumb.className = "vc-thumb"; headThumb.alt = "";
-            headThumb.src = img ? img.dataset.orig : "";
-            headThumb.addEventListener("error", () => { headThumb.removeAttribute("src"); });
+            const headThumb = null; // no thumbnail on the collapsed row
             const titles = document.createElement("span");
             titles.className = "vc-titles";
             const meta = document.createElement("span");
@@ -2231,7 +2213,7 @@
             const chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             chevron.setAttribute("viewBox", "0 0 24 24"); chevron.setAttribute("class", "vc-chevron"); chevron.setAttribute("aria-hidden", "true");
             chevron.innerHTML = '<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
-            head.append(checkWrap, headThumb, titles, status, chevron);
+            head.append(checkWrap, titles, status, chevron);
 
             const body = document.createElement("div");
             body.className = "vc-body";
@@ -2318,7 +2300,7 @@
         function render(id) {
             const v = venues.get(id);
             if (!v) return;
-            const photos = photosByVenue.get(id) || [];
+            const photos = visiblePhotos(id);
             const pending = pendingByVenue.get(id) || [];
             const n = photos.length;
             const isChecked = Boolean(checked[id]) && n > 0;
@@ -2392,20 +2374,20 @@
                 if (img.getAttribute("src") !== it.src) img.src = it.src;
                 node.style.setProperty("--tilt", TILTS[idx % TILTS.length] + "deg");
                 const ts = it.photo ? it.photo.clientTs : Date.now();
-                node.querySelector(".pc-stamp").innerHTML = `Phuket<br>${shortDate(ts)}`;
+                node.querySelector(".pc-stamp").innerHTML = "Phuket<br>2026";
                 const p = it.pending;
                 node.classList.toggle("pending", Boolean(p));
                 node.classList.toggle("failed", Boolean(p && p.failed));
                 node.querySelector(".pc-caption b").textContent =
-                    p ? (p.failed ? "Didn't upload" : "Sending…") : (it.photo.by || "Cousin");
-                node.querySelector(".pc-caption small").textContent = p ? "" : shortDate(ts);
+                    p ? (p.failed ? "Didn't upload" : "Sending…") : shortDate(ts);
+                node.querySelector(".pc-caption small").textContent = "";
                 let bar = node.querySelector(".bar");
                 if (p && !p.failed) {
                     if (!bar) { bar = document.createElement("span"); bar.className = "bar"; bar.innerHTML = "<i></i>"; node.querySelector(".pc-photo").appendChild(bar); }
                     p.barEl = bar.firstElementChild;
                     p.barEl.style.width = Math.round(p.progress * 100) + "%";
                 } else if (bar) bar.remove();
-                node.setAttribute("aria-label", p ? "Photo uploading" : `Open photo ${it.index + 1} of ${photos.length} by ${it.photo.by || "Cousin"}`);
+                node.setAttribute("aria-label", p ? "Photo uploading" : `Open photo ${it.index + 1} of ${photos.length}`);
                 node._onTap = p ? () => p.failed && retry(id, p) : () => openLightbox(id, it.index);
                 return node;
             });
@@ -2487,14 +2469,6 @@
                 if (badge) badge.textContent = `${d}/${cbs.length}${d === cbs.length && d > 0 ? " ✓" : ""}`;
             });
             $("questScore").innerHTML = `${done} / ${venues.size} quests complete<small>${totalPhotos()} photo${totalPhotos() === 1 ? "" : "s"} so far</small>`;
-
-            const tally = {};
-            photosByVenue.forEach(list => list.forEach(p => { tally[p.by || "Cousin"] = (tally[p.by || "Cousin"] || 0) + 1; }));
-            const me = myName();
-            $("questLeaders").innerHTML = Object.entries(tally)
-                .sort((a, b) => b[1] - a[1]).slice(0, 6)
-                .map(([n, c], i) => `<span class="${n === me ? "me" : ""}">${i === 0 ? "👑 " : ""}${escapeHtml(n)} ${c}</span>`)
-                .join("");
         }
         const totalPhotos = () => Array.from(photosByVenue.values()).reduce((s, l) => s + l.length, 0);
         const escapeHtml = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -2553,7 +2527,9 @@
             try {
                 const { thumb, full } = await makeVersions(item.file);
                 setProgress(item, 0.45);
-                const photoRef = doc(photosCol);              // new random id
+                // Reuse the same id on retry so a slow first attempt can't create a duplicate.
+                const photoRef = item.docId ? doc(photosCol, item.docId) : doc(photosCol);
+                item.docId = photoRef.id;
                 const batch = writeBatch(db);
                 batch.set(photoRef, {
                     venueId: id, thumb, uid: user.uid, by: item.by,
@@ -2587,7 +2563,7 @@
                 const snap = await getDoc(doc(fullCol, p.id));
                 if (!snap.exists()) return;
                 fullCache.set(p.id, snap.data().data);
-                const cur = (photosByVenue.get(lb.id) || [])[lb.index];
+                const cur = visiblePhotos(lb.id)[lb.index];
                 if (cur && cur.id === p.id) $("lbImg").src = fullCache.get(p.id);
             } catch (err) { console.error(err); }
         }
@@ -2598,13 +2574,13 @@
             showLightbox();
         }
         function showLightbox() {
-            const list = photosByVenue.get(lb.id) || [];
+            const list = visiblePhotos(lb.id);
             if (!list.length) return closeLightbox();
             lb.index = (lb.index + list.length) % list.length;
             const p = list[lb.index];
             $("lbImg").src = fullCache.get(p.id) || p.thumb || p.url;
             if (!p.url && !fullCache.has(p.id)) loadFull(p);
-            $("lbMeta").textContent = `${venues.get(lb.id).name} — ${p.by || "Cousin"} (${lb.index + 1}/${list.length})`;
+            $("lbMeta").textContent = `${venues.get(lb.id).name} (${lb.index + 1}/${list.length})`;
             $("lbDelete").hidden = !(user && p.uid === user.uid);
             $("lbPrev").style.visibility = $("lbNext").style.visibility = list.length > 1 ? "visible" : "hidden";
         }
@@ -2650,7 +2626,7 @@
             touchX = touchY = null;
         });
         $("lbDelete").addEventListener("click", async () => {
-            const p = (photosByVenue.get(lb.id) || [])[lb.index];
+            const p = visiblePhotos(lb.id)[lb.index];
             if (!p || !confirm("Delete this photo for everyone?")) return;
             const isLast = photoCount(lb.id) === 1;
             try {
