@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-title" content="Phuket List">
     <link rel="manifest" href="manifest.webmanifest">
     <title>The Phuket List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
             --butter-yellow: #FFF9C4;
@@ -787,6 +787,66 @@
         @media (prefers-reduced-motion: reduce) {
             .venue-card.celebrate, .venue-card.celebrate .vc-check input[type="checkbox"], .celebration-emoji { animation: none; }
         }
+
+
+        /* ============ Postcards ============ */
+        .postcards {
+            position: relative;
+            display: flex; gap: 14px; overflow-x: auto; overflow-y: hidden;
+            scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+            padding: 16px 10px 26px; margin: 4px -10px -6px;
+            scrollbar-width: none;
+        }
+        .postcards::-webkit-scrollbar { display: none; }
+        .postcards[hidden] { display: none; }
+        .postcard {
+            flex: 0 0 78%; scroll-snap-align: center; position: relative;
+            background: #fff; border: 0; border-radius: 6px; padding: 10px 10px 12px;
+            box-shadow: 0 5px 12px rgba(15, 23, 42, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08);
+            transform: rotate(var(--tilt, 0deg));
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer; text-align: left; font: inherit; color: inherit;
+        }
+        .postcard:active { transform: rotate(0deg) scale(0.98); }
+        .postcards.single { justify-content: center; }
+        .postcards.single .postcard { flex-basis: 88%; }
+        .pc-photo {
+            display: block; position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+            border-radius: 3px; background: var(--powder-blue-glow);
+        }
+        .pc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .pc-stamp {
+            position: absolute; top: 8px; right: 8px; padding: 4px 7px;
+            border: 2px dashed rgba(255, 255, 255, 0.9); border-radius: 3px;
+            background: rgba(2, 132, 199, 0.55); color: #fff;
+            font: 800 0.58rem/1.15 'Outfit', sans-serif; letter-spacing: 1.2px; text-transform: uppercase; text-align: center;
+            transform: rotate(6deg); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+        }
+        .pc-caption {
+            display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+            margin-top: 9px; padding: 0 2px;
+            font-family: 'Caveat', 'Bradley Hand', 'Segoe Print', cursive;
+            font-size: 1.35rem; line-height: 1; color: #334155;
+        }
+        .pc-caption small { font-size: 1.05rem; color: var(--text-muted); white-space: nowrap; }
+        .pc-caption b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .postcard .bar {
+            position: absolute; left: 10px; right: 10px; bottom: 10px; height: 6px;
+            border-radius: 3px; background: rgba(255, 255, 255, 0.75); overflow: hidden;
+        }
+        .postcard .bar i { display: block; height: 100%; width: 0; background: #0284c7; transition: width 0.2s; }
+        .postcard.pending img { filter: saturate(0.5) brightness(0.95); }
+        .postcard.failed .pc-photo::after {
+            content: "Tap to retry"; position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(15, 23, 42, 0.55); color: #fff; font-weight: 700;
+        }
+        .vc-body .photo-strip { display: none; }
+        .pc-dots { display: flex; justify-content: center; gap: 6px; margin: -4px 0 6px; }
+        .pc-dots[hidden] { display: none; }
+        .pc-dots i { width: 6px; height: 6px; border-radius: 3px; background: #cbd5e1; transition: all 0.25s ease; }
+        .pc-dots i.on { width: 18px; background: #0284c7; }
+        @media (min-width: 601px) { .postcard { flex-basis: 46%; } .postcards.single .postcard { flex-basis: 60%; } }
 
         /* Quest board */
         .quest-board {
@@ -2288,24 +2348,88 @@
                 v.els.hint.textContent = "⚠️ " + failedItem.error;
             }
 
-            v.els.strip.replaceChildren();
-            pending.forEach(p => {
-                const t = thumb(p.preview, () => p.failed && retry(id, p), "pending" + (p.failed ? " failed" : ""));
-                if (!p.failed) {
-                    const bar = document.createElement("span");
-                    bar.className = "bar";
-                    bar.innerHTML = `<i style="width:${Math.round(p.progress * 100)}%"></i>`;
-                    t.appendChild(bar);
-                    p.barEl = bar.firstElementChild;
-                }
-                v.els.strip.appendChild(t);
-            });
-            photos.forEach((p, i) => v.els.strip.appendChild(thumb(p.thumb || p.url, () => openLightbox(id, i))));
-
-            renderCollage(id, v, photos);
+            renderPostcards(id, v, photos, pending);
         }
 
-        // Card cover: shows up to 4 photos as a collage, with "+N" for the rest.
+        // Photos shown as a swipeable row of postcards.
+        const TILTS = [-2, 1.6, -1.2, 2.2, -1.8, 1];
+        const shortDate = ts => ts ? new Date(ts).toLocaleDateString(undefined, { day: "numeric", month: "short" }) : "";
+        function renderPostcards(id, v, photos, pending) {
+            if (!v.pc) {
+                v.pc = document.createElement("div");
+                v.pc.className = "postcards";
+                v.pc.hidden = true;
+                v.pcNodes = new Map();
+                v.pcDots = document.createElement("div");
+                v.pcDots.className = "pc-dots";
+                v.pcDots.setAttribute("aria-hidden", "true");
+                v.card.querySelector(".vc-body-inner").prepend(v.pc, v.pcDots);
+                v.pc.addEventListener("scroll", () => updateDots(v), { passive: true });
+            }
+            const items = [
+                ...pending.map(p => ({ key: p, pending: p, src: p.preview })),
+                ...photos.map((p, i) => ({ key: p.id, photo: p, index: i, src: p.thumb || p.url }))
+            ];
+            const has = items.length > 0;
+            v.pc.hidden = !has;
+            if (v.img) v.img.hidden = has;
+            if (v.collage) v.collage.hidden = true;
+            v.pc.classList.toggle("single", items.length === 1);
+
+            const keep = new Set();
+            const nodes = items.map((it, idx) => {
+                keep.add(it.key);
+                let node = v.pcNodes.get(it.key);
+                if (!node) {
+                    node = document.createElement("button");
+                    node.type = "button";
+                    node.className = "postcard";
+                    node.innerHTML = '<span class="pc-photo"><img alt=""><span class="pc-stamp"></span></span><span class="pc-caption"><b></b><small></small></span>';
+                    node.addEventListener("click", () => node._onTap && node._onTap());
+                    v.pcNodes.set(it.key, node);
+                }
+                const img = node.querySelector("img");
+                if (img.getAttribute("src") !== it.src) img.src = it.src;
+                node.style.setProperty("--tilt", TILTS[idx % TILTS.length] + "deg");
+                const ts = it.photo ? it.photo.clientTs : Date.now();
+                node.querySelector(".pc-stamp").innerHTML = `Phuket<br>${shortDate(ts)}`;
+                const p = it.pending;
+                node.classList.toggle("pending", Boolean(p));
+                node.classList.toggle("failed", Boolean(p && p.failed));
+                node.querySelector(".pc-caption b").textContent =
+                    p ? (p.failed ? "Didn't upload" : "Sending…") : (it.photo.by || "Cousin");
+                node.querySelector(".pc-caption small").textContent = p ? "" : shortDate(ts);
+                let bar = node.querySelector(".bar");
+                if (p && !p.failed) {
+                    if (!bar) { bar = document.createElement("span"); bar.className = "bar"; bar.innerHTML = "<i></i>"; node.querySelector(".pc-photo").appendChild(bar); }
+                    p.barEl = bar.firstElementChild;
+                    p.barEl.style.width = Math.round(p.progress * 100) + "%";
+                } else if (bar) bar.remove();
+                node.setAttribute("aria-label", p ? "Photo uploading" : `Open photo ${it.index + 1} of ${photos.length} by ${it.photo.by || "Cousin"}`);
+                node._onTap = p ? () => p.failed && retry(id, p) : () => openLightbox(id, it.index);
+                return node;
+            });
+            v.pcNodes.forEach((node, key) => { if (!keep.has(key)) v.pcNodes.delete(key); });
+            const left = v.pc.scrollLeft;
+            v.pc.replaceChildren(...nodes);
+            v.pc.scrollLeft = left;
+            v.pcDots.hidden = items.length < 2;
+            if (v.pcDots.children.length !== items.length) v.pcDots.replaceChildren(...items.map(() => document.createElement("i")));
+            updateDots(v);
+        }
+        function updateDots(v) {
+            const cards = v.pc.children;
+            if (!cards.length || v.pcDots.hidden) return;
+            const center = v.pc.scrollLeft + v.pc.clientWidth / 2;
+            let best = 0, bestDist = Infinity;
+            Array.from(cards).forEach((c, i) => {
+                const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+                if (d < bestDist) { bestDist = d; best = i; }
+            });
+            Array.from(v.pcDots.children).forEach((dot, i) => dot.classList.toggle("on", i === best));
+        }
+
+        // (Older collage view, no longer used.)
         function renderCollage(id, v, photos) {
             if (!v.img) return;
             if (!v.collage) {
