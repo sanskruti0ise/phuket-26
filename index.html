@@ -910,6 +910,13 @@
         .prep-item input:checked + .prep-text .prep-name .prep-shared { text-decoration: none; }
 
 
+
+        /* Day header: title on the left, date always on the same line on the right */
+        .day-header { flex-wrap: nowrap; align-items: center; gap: 10px; margin: 2px 0 16px; }
+        .day-header h2 { flex: 1 1 auto; min-width: 0; font-size: clamp(1.25rem, 5.2vw, 1.7rem); overflow-wrap: anywhere; }
+        .day-header .date-badge { flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px; border-radius: 10px; }
+        .day-header .day-count { vertical-align: 3px; }
+
         /* ============ Compact top area ============ */
         .header {
             padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 14px;
@@ -987,6 +994,10 @@
                     <label class="prep-item venue-label">
                         <input type="checkbox" data-prep-id="visa" data-scope="mine">
                         <span class="prep-text"><span class="prep-name">Visa check</span><span class="prep-hint">Confirm the entry rules for your passport well before flying.</span></span>
+                    </label>
+                    <label class="prep-item venue-label">
+                        <input type="checkbox" data-home-id="fti">
+                        <span class="prep-text"><span class="prep-name">Fast Track Immigration (FTI-TTP) <span class="prep-shared">Optional</span></span><span class="prep-hint">E-gates for Indian passport and OCI holders at participating Indian airports. Needs a biometrics appointment, so apply well before the trip.</span><a class="prep-link" href="https://ftittp.mha.gov.in/fti/" target="_blank" rel="noopener">Open official site ↗</a></span>
                     </label>
                     <label class="prep-item venue-label">
                         <input type="checkbox" data-prep-id="insurance" data-scope="mine">
@@ -1386,7 +1397,7 @@
             <!-- DAY 3 -->
             <div id="day3" class="day-section">
                 <div class="day-header">
-                    <h2>Islands & Longtails</h2>
+                    <h2>Phi Phi Day</h2>
                     <span class="date-badge">Fri, Nov 20</span>
                 </div>
                 <div class="venue-card outfit">
