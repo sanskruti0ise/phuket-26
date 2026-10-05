@@ -1395,7 +1395,7 @@
         const FB = "https://www.gstatic.com/firebasejs/10.12.5/";
         let initializeApp, getAuth, signInAnonymously, onAuthStateChanged;
         let getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp;
-        let getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject;
+        let initializeFirestore, persistentLocalCache, persistentMultipleTabManager, writeBatch, getDoc;
 
         const cfg = window.TRIP_FIREBASE_CONFIG || {};
         const TRIP_ID = window.TRIP_ID || "phuket-2026";
@@ -1408,7 +1408,7 @@
         const checked = {};                // venueId -> boolean
         const loaded = { photos: false, checklist: false };
         const venues = new Map();          // venueId -> { card, cb, name, els }
-        let user = null, db = null, storage = null, photosCol = null, checklistCol = null;
+        let user = null, db = null, photosCol = null, fullCol = null, checklistCol = null;
 
         // ---------- helpers ----------
         const $ = id => document.getElementById(id);
@@ -1447,29 +1447,44 @@
             });
         }
 
-        // Shrinks a phone photo (often 3–8 MB) to ~300–500 KB before upload.
-        async function compress(file) {
-            const MAX = 1600, QUALITY = 0.8;
+        // Photos are stored for free inside Firestore (no paid Storage needed).
+        // Each photo is saved twice: a small thumbnail for the cards and a full-size
+        // version that only loads when someone opens it.
+        async function decodeImage(file) {
             try {
-                let bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
-                const scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
-                const w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
-                let blob;
-                if (typeof OffscreenCanvas !== "undefined") {
-                    const c = new OffscreenCanvas(w, h);
-                    c.getContext("2d").drawImage(bmp, 0, 0, w, h);
-                    blob = await c.convertToBlob({ type: "image/jpeg", quality: QUALITY });
-                } else {
-                    const c = document.createElement("canvas");
-                    c.width = w; c.height = h;
-                    c.getContext("2d").drawImage(bmp, 0, 0, w, h);
-                    blob = await new Promise(r => c.toBlob(r, "image/jpeg", QUALITY));
-                }
-                bmp.close && bmp.close();
-                return blob && blob.size < file.size ? blob : file;
+                return await createImageBitmap(file, { imageOrientation: "from-image" });
             } catch {
-                return file; // e.g. HEIC in a browser that can't decode it: upload as-is
+                // Fallback (e.g. HEIC on iPhone): let the browser decode it as a normal image.
+                const url = URL.createObjectURL(file);
+                try {
+                    const img = new Image();
+                    img.src = url;
+                    await img.decode();
+                    return img;
+                } finally { setTimeout(() => URL.revokeObjectURL(url), 1000); }
             }
+        }
+        function toDataUrl(source, maxSide, quality) {
+            const sw = source.width || source.naturalWidth, sh = source.height || source.naturalHeight;
+            const scale = Math.min(1, maxSide / Math.max(sw, sh));
+            const c = document.createElement("canvas");
+            c.width = Math.round(sw * scale); c.height = Math.round(sh * scale);
+            c.getContext("2d").drawImage(source, 0, 0, c.width, c.height);
+            return c.toDataURL("image/jpeg", quality);
+        }
+        async function makeVersions(file) {
+            let src;
+            try { src = await decodeImage(file); }
+            catch { throw Object.assign(new Error("decode"), { code: "app/decode" }); }
+            const thumb = toDataUrl(src, 480, 0.7);
+            // Firestore documents max out at 1 MB, so shrink until the full photo fits comfortably.
+            let full = null;
+            for (const [side, q] of [[1440, 0.75], [1280, 0.7], [1080, 0.65], [900, 0.6]]) {
+                full = toDataUrl(src, side, q);
+                if (full.length < 850000) break;
+            }
+            src.close && src.close();
+            return { thumb, full };
         }
 
         const withTimeout = (promise, ms, code) => Promise.race([
@@ -1479,14 +1494,12 @@
 
         function uploadErrorMessage(err) {
             const code = (err && err.code) || "";
-            const text = String((err && (err.message + " " + (err.customData && err.customData.serverResponse))) || "");
-            if (code === "storage/unauthorized") return "Upload blocked. Check the Storage rules in Firebase.";
-            if (code === "storage/retry-limit-exceeded" || /bucket|not found|404/i.test(text))
-                return "Can't reach photo storage. Is Storage turned on in Firebase?";
-            if (code === "firestore/timeout" || code === "not-found")
-                return "Photo uploaded but couldn't be saved. Is the Firestore database created?";
+            if (code === "app/decode") return "This photo format couldn't be read. Try a different photo or a screenshot of it.";
             if (code === "permission-denied") return "Saving blocked. Check the Firestore rules in Firebase.";
-            if (!navigator.onLine) return "You're offline. Tap the photo to retry when you have signal.";
+            if (code === "resource-exhausted") return "Firebase's free daily limit is used up. Try again tomorrow.";
+            if (code === "invalid-argument") return "That photo is too large to save. Try another one.";
+            if (code === "firestore/timeout" || code === "unavailable" || !navigator.onLine)
+                return "Weak or no signal. Tap the photo to retry.";
             return "Upload failed. Tap the photo to retry.";
         }
 
@@ -1600,6 +1613,11 @@
                     ? (pending.length ? "Uploading… the quest unlocks as soon as it lands." : "Snap at least one photo to unlock this quest.")
                     : isChecked ? "Quest complete ✨ Keep adding photos anytime."
                     : "Unlocked! Tap the circle to complete this quest.";
+            const failedItem = pending.find(p => p.failed && p.error);
+            if (failedItem) {
+                v.els.hint.classList.add("warn");
+                v.els.hint.textContent = "⚠️ " + failedItem.error;
+            }
 
             v.els.strip.replaceChildren();
             pending.forEach(p => {
@@ -1613,10 +1631,10 @@
                 }
                 v.els.strip.appendChild(t);
             });
-            photos.forEach((p, i) => v.els.strip.appendChild(thumb(p.url, () => openLightbox(id, i))));
+            photos.forEach((p, i) => v.els.strip.appendChild(thumb(p.thumb || p.url, () => openLightbox(id, i))));
 
             if (v.img) {
-                if (n > 0) { v.img.src = photos[0].url; v.img.classList.add("has-user-photo"); }
+                if (n > 0) { v.img.src = photos[0].thumb || photos[0].url; v.img.classList.add("has-user-photo"); }
                 else if (v.img.classList.contains("has-user-photo")) {
                     v.img.src = v.img.dataset.orig; v.img.classList.remove("has-user-photo");
                 }
@@ -1677,36 +1695,38 @@
             render(id);
 
             const wasLocked = photoCount(id) === 0;
-            // Up to 3 photos upload at the same time.
+            // Up to 2 photos upload at the same time.
             let saved = 0, next = 0;
             const worker = async () => { while (next < items.length) { if (await upload(id, items[next++])) saved++; } };
-            await Promise.all(Array.from({ length: Math.min(3, items.length) }, worker));
+            await Promise.all(Array.from({ length: Math.min(2, items.length) }, worker));
             if (saved) {
                 toast(saved === 1 ? "📸 Photo saved!" : `📸 ${saved} photos saved!`);
                 if (wasLocked) setTimeout(() => toast("Quest unlocked. Tap the circle to tick it off ✓"), 1800);
             }
         }
 
+        function setProgress(item, value) {
+            item.progress = value;
+            if (item.barEl) item.barEl.style.width = Math.round(value * 100) + "%";
+        }
+
         async function upload(id, item) {
-            item.failed = false; item.progress = 0.03; // show the bar straight away
+            item.failed = false; item.error = null;
+            setProgress(item, 0.05);
             render(id);
             try {
-                const blob = await compress(item.file);
-                const ext = blob.type === "image/jpeg" ? "jpg" : (item.file.name.split(".").pop() || "img").toLowerCase();
-                const path = `trips/${TRIP_ID}/${id}/${user.uid}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
-                const task = uploadBytesResumable(ref(storage, path), blob, {
-                    contentType: blob.type || item.file.type || "image/jpeg",
-                    customMetadata: { venueId: id, by: item.by }
-                });
-                await new Promise((resolve, reject) => task.on("state_changed", s => {
-                    item.progress = s.totalBytes ? s.bytesTransferred / s.totalBytes : 0;
-                    if (item.barEl) item.barEl.style.width = Math.round(item.progress * 100) + "%";
-                }, reject, resolve));
-                const url = await getDownloadURL(task.snapshot.ref);
-                await withTimeout(addDoc(photosCol, {
-                    venueId: id, url, path, uid: user.uid, by: item.by,
+                const { thumb, full } = await makeVersions(item.file);
+                setProgress(item, 0.45);
+                const photoRef = doc(photosCol);              // new random id
+                const batch = writeBatch(db);
+                batch.set(photoRef, {
+                    venueId: id, thumb, uid: user.uid, by: item.by,
                     createdAt: serverTimestamp(), clientTs: Date.now()
-                }), 15000, "firestore/timeout");
+                });
+                batch.set(doc(fullCol, photoRef.id), { venueId: id, data: full, uid: user.uid });
+                setProgress(item, 0.7);
+                await withTimeout(batch.commit(), 45000, "firestore/timeout");
+                setProgress(item, 1);
                 const list = pendingByVenue.get(id) || [];
                 pendingByVenue.set(id, list.filter(p => p !== item));
                 URL.revokeObjectURL(item.preview);
@@ -1715,8 +1735,9 @@
             } catch (err) {
                 console.error("Upload failed:", err);
                 item.failed = true;
+                item.error = uploadErrorMessage(err) + (err && err.code ? ` (${err.code})` : "");
                 render(id);
-                toast(uploadErrorMessage(err), 4500);
+                toast(item.error, 4500);
                 return false;
             }
         }
@@ -1724,6 +1745,16 @@
 
         // ---------- lightbox ----------
         const lb = { id: null, index: 0 };
+        const fullCache = new Map();
+        async function loadFull(p) {
+            try {
+                const snap = await getDoc(doc(fullCol, p.id));
+                if (!snap.exists()) return;
+                fullCache.set(p.id, snap.data().data);
+                const cur = (photosByVenue.get(lb.id) || [])[lb.index];
+                if (cur && cur.id === p.id) $("lbImg").src = fullCache.get(p.id);
+            } catch (err) { console.error(err); }
+        }
         function openLightbox(id, index) {
             lb.id = id; lb.index = index;
             $("photoLightbox").classList.add("open");
@@ -1734,7 +1765,8 @@
             if (!list.length) return closeLightbox();
             lb.index = (lb.index + list.length) % list.length;
             const p = list[lb.index];
-            $("lbImg").src = p.url;
+            $("lbImg").src = fullCache.get(p.id) || p.thumb || p.url;
+            if (!p.url && !fullCache.has(p.id)) loadFull(p);
             $("lbMeta").textContent = `${venues.get(lb.id).name} — ${p.by || "Cousin"} (${lb.index + 1}/${list.length})`;
             $("lbDelete").hidden = !(user && p.uid === user.uid);
             $("lbPrev").style.visibility = $("lbNext").style.visibility = list.length > 1 ? "visible" : "hidden";
@@ -1763,8 +1795,10 @@
             if (!p || !confirm("Delete this photo for everyone?")) return;
             const isLast = photoCount(lb.id) === 1;
             try {
-                await deleteDoc(doc(photosCol, p.id));
-                deleteObject(ref(storage, p.path)).catch(() => {});
+                const batch = writeBatch(db);
+                batch.delete(doc(photosCol, p.id));
+                batch.delete(doc(fullCol, p.id));
+                await batch.commit();
                 toast(isLast ? "Photo deleted. This quest is locked again." : "Photo deleted.");
             } catch (err) {
                 console.error(err);
@@ -1794,16 +1828,15 @@
 
         async function startFirebase() {
             try {
-                const [appMod, authMod, fsMod, stMod] = await Promise.all([
+                const [appMod, authMod, fsMod] = await Promise.all([
                     import(FB + "firebase-app.js"),
                     import(FB + "firebase-auth.js"),
-                    import(FB + "firebase-firestore.js"),
-                    import(FB + "firebase-storage.js")
+                    import(FB + "firebase-firestore.js")
                 ]);
                 ({ initializeApp } = appMod);
                 ({ getAuth, signInAnonymously, onAuthStateChanged } = authMod);
                 ({ getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp } = fsMod);
-                ({ getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } = stMod);
+                ({ initializeFirestore, persistentLocalCache, persistentMultipleTabManager, writeBatch, getDoc } = fsMod);
             } catch (err) {
                 console.error("Couldn't load Firebase:", err);
                 showBanner("Couldn't load Firebase. Check your internet connection (or turn off any ad blocker) and reload.");
@@ -1812,17 +1845,32 @@
             try {
                 const app = initializeApp(cfg);
                 const auth = getAuth(app);
-                db = getFirestore(app);
-                storage = getStorage(app);
-                // Fail fast with a clear message instead of silently retrying for ~10 minutes.
-                storage.maxUploadRetryTime = 30000;
-                storage.maxOperationRetryTime = 20000;
+                // Keep a copy of trip data on the phone so reopening the page is instant
+                // and doesn't re-download every photo (saves the free daily quota too).
+                try {
+                    db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+                } catch {
+                    db = getFirestore(app);
+                }
                 photosCol = collection(db, "trips", TRIP_ID, "photos");
+                fullCol = collection(db, "trips", TRIP_ID, "photoFull");
                 checklistCol = collection(db, "trips", TRIP_ID, "checklist");
 
                 const onListenError = err => {
-                    console.error(err);
-                    showBanner("Can't read trip data. Check your Firestore rules (see the setup notes).");
+                    console.error("Firestore error:", err.code, err);
+                    const code = (err && err.code) || "";
+                    const text = String((err && err.message) || "");
+                    const msg =
+                        code === "permission-denied"
+                            ? "Firestore rules are blocking the page. Paste the trip rules into <strong>Firestore → Rules</strong> and click <strong>Publish</strong>."
+                        : code === "not-found" || /does not exist|database \(default\)/i.test(text)
+                            ? "No Firestore database found. Create one in Firebase with the ID <strong>(default)</strong>."
+                        : code === "failed-precondition"
+                            ? "The Firestore database isn't ready. Make sure it's a <strong>Standard edition</strong> database named <strong>(default)</strong>."
+                        : code === "unavailable"
+                            ? "Can't reach Firestore right now. Check your connection and reload."
+                        : `Can't read trip data (<code>${code || "unknown error"}</code>). Send this code to whoever set up the page.`;
+                    showBanner(msg);
                 };
 
                 let subscribed = false;
