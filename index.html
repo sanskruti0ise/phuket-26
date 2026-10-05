@@ -871,13 +871,31 @@
         }
         .quest-leaders span.me { background: var(--powder-blue); color: #0369a1; }
 
+
+        /* ============ Compact top area ============ */
+        .header {
+            padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 14px;
+            border-bottom-left-radius: 22px; border-bottom-right-radius: 22px;
+            margin-bottom: 6px;
+        }
+        .header h1 { font-size: 1.45rem; letter-spacing: -0.5px; margin-bottom: 0; line-height: 1.2; }
+        .header p { font-size: 0.68rem; letter-spacing: 1.5px; margin-top: 2px; }
+        .header::after { display: none; }
+        .nav-container { padding-top: calc(6px + env(safe-area-inset-top, 0px)); padding-bottom: 6px; }
+        .nav-btn { padding: 6px 14px; font-size: 0.82rem; border-radius: 20px; }
+        .nav-btn.active { transform: none; box-shadow: 0 3px 10px rgba(79, 195, 247, 0.35); }
+        .progress-container { margin: 4px auto 8px; height: 4px; }
+        .quest-board { padding: 7px 12px; margin-bottom: 4px; border-radius: 14px; gap: 4px 10px; }
+        .quest-score { font-size: 0.8rem; }
+        .quest-score small { font-size: 0.72rem; }
+        @media (max-width: 600px) { .quest-board { margin: 0 16px 4px; } .days-slider { padding-top: 8px; } }
 </style>
 </head>
 <body>
 
     <div class="header">
         <h1>The Phuket List</h1>
-        <p>The Sobriety • Nov 18-25</p>
+        <p>The Sins Club • Nov 18-25, 2026</p>
     </div>
 
     <div class="nav-container">
@@ -2152,7 +2170,7 @@
             const dayBoxes = day ? Array.from(day.querySelectorAll('.venue-card input[type="checkbox"]')) : [];
             const allBoxes = Array.from(document.querySelectorAll('.venue-card input[type="checkbox"]'));
             if (allBoxes.every(c => c.checked)) {
-                setTimeout(() => { rain(260); buzz([30, 60, 30, 60, 80]); showCelebration("🏆", "Trip complete!", `All ${allBoxes.length} quests done. The Sobriety legends, every one of you.`); }, 350);
+                setTimeout(() => { rain(260); buzz([30, 60, 30, 60, 80]); showCelebration("🏆", "Trip complete!", `All ${allBoxes.length} quests done. The Sins Club, legends every one of you.`); }, 350);
             } else if (dayBoxes.length && dayBoxes.every(c => c.checked)) {
                 const title = day.querySelector(".day-header h2");
                 const dayName = title ? title.firstChild.textContent.trim() : "";
