@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#B3E5FC">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Phuket List">
-    <link rel="manifest" href="manifest.webmanifest">
-    <title>The Phuket List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="#B3E5FC" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Phuket List" name="apple-mobile-web-app-title"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<title>The Phuket List</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&amp;family=Caveat:wght@600&amp;display=swap" rel="stylesheet"/>
+<style>
         :root {
             --butter-yellow: #FFF9C4;
             --butter-yellow-rich: #FFF176;
@@ -937,1195 +938,1080 @@
 </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>The Phuket List</h1>
-        <p>The Sins Club • Nov 18-25, 2026</p>
-    </div>
-
-    <div class="nav-container">
-        <div class="nav-tabs">
-            <button class="nav-btn" data-target="day0">Checklist</button>
-            <button class="nav-btn active" data-target="day1">Day 1</button>
-            <button class="nav-btn" data-target="day2">Day 2</button>
-            <button class="nav-btn" data-target="day3">Day 3</button>
-            <button class="nav-btn" data-target="day4">Day 4</button>
-            <button class="nav-btn" data-target="day5">Day 5</button>
-            <button class="nav-btn" data-target="day6">Day 6</button>
-            <button class="nav-btn" data-target="day7">Day 7</button>
-            <button class="nav-btn" data-target="day8">Day 8</button>
-        </div>
-    </div>
-
-    <!-- Interactive Progress Indicator -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <!-- Quest board -->
-    <div class="quest-board" id="questBoard">
-        <span class="quest-score" id="questScore">0 quests complete</span>
-    </div>
-
-    <div class="slider-wrapper">
-        <!-- Desktop Navigation Arrows -->
-        <button class="arrow-btn arrow-prev" data-dir="-1">❮</button>
-        <button class="arrow-btn arrow-next" data-dir="1">❯</button>
-
-        <div class="days-slider" id="daysSlider">
-            
-            <!-- DAY 0 -->
-            <div id="day0" class="day-section" data-prep>
-                <div class="day-header">
-                    <h2>Trip Checklist</h2>
-                    <span class="date-badge">Before &amp; after</span>
-                </div>
-                <div class="prep-summary"><span id="prepCount">0 / 0 ready</span><div class="prep-bar"><i id="prepBar"></i></div></div>
-                <div class="prep-group">
-                    <div class="prep-group-head"><h3>Documents</h3><span>Just for you, saved on this phone</span></div>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="passport" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Passport</span><span class="prep-hint">Valid for at least 6 months after Nov 25, 2026, with blank pages.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="tdac" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">TDAC (Thailand Digital Arrival Card)</span><span class="prep-hint">Free online form, submit within 3 days before landing (Nov 15 to 18). Save the QR code.</span><a class="prep-link" href="https://tdac.immigration.go.th" target="_blank" rel="noopener">Open official site ↗</a></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="visa" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Visa check</span><span class="prep-hint">Confirm the entry rules for your passport well before flying.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="fti">
-                        <span class="prep-text"><span class="prep-name">Fast Track Immigration (FTI-TTP) <span class="prep-shared">Optional</span></span><span class="prep-hint">E-gates for Indian passport and OCI holders at participating Indian airports. Needs a biometrics appointment, so apply well before the trip.</span><a class="prep-link" href="https://ftittp.mha.gov.in/fti/" target="_blank" rel="noopener">Open official site ↗</a></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="insurance" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Travel insurance</span><span class="prep-hint">Check it covers boat trips and ziplining.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="boarding" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Boarding pass</span><span class="prep-hint">Web check-in done and boarding pass saved offline.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="copies" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Document copies</span><span class="prep-hint">Photos of passport, insurance and bookings saved offline.</span></span>
-                    </label>
-                </div>
-                <div class="prep-group">
-                    <div class="prep-group-head"><h3>Money & phone</h3><span>Just for you, saved on this phone</span></div>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="baht" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Thai baht in cash</span><span class="prep-hint">For markets, longtails, taxis and tips.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="card" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Bank card ready</span><span class="prep-hint">International use switched on; bank told you're travelling.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="esim" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">eSIM or roaming</span><span class="prep-hint">Data sorted before you land.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="adapter" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Plug adapter</span><span class="prep-hint">Thai sockets are 220V; check your plugs fit.</span></span>
-                    </label>
-                </div>
-                <div class="prep-group">
-                    <div class="prep-group-head"><h3>Group bookings</h3><span>Ticked for everyone</span></div>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="tickets" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Flight tickets</span><span class="prep-hint">Booked for everyone. Share the PNR in the group chat.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-stay" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Accommodation in Kathu</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-airport" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Airport taxi transfer</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-phiphi" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Phi Phi catamaran + private longtail</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-phangnga" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Phang Nga Bay catamaran tour</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-elephant" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Phuket Elephant Sanctuary</span><span class="prep-hint">Book the slot closest to 10:30 AM.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-spa" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Spa booking</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-hanuman" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Hanuman World</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-carnival" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Carnival Magic</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-tiger" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Tiger Kingdom</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="b-brunch" data-scope="shared">
-                        <span class="prep-text"><span class="prep-name">Tann Terrace & Fuga reservations</span></span>
-                    </label>
-                </div>
-                <div class="prep-group">
-                    <div class="prep-group-head"><h3>Packing</h3><span>Just for you, saved on this phone</span></div>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="sunscreen" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Reef-safe sunscreen</span><span class="prep-hint">For the two boat days.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="swim" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Swimwear & quick-dry clothes</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="temple" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Temple outfit</span><span class="prep-hint">Shoulders and knees covered for Big Buddha.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="shoes" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Comfy shoes</span><span class="prep-hint">For the sanctuary, ziplines and night markets.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="pouch" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Waterproof phone pouch</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-prep-id="meds" data-scope="mine">
-                        <span class="prep-text"><span class="prep-name">Medicines</span><span class="prep-hint">Motion-sickness tablets for the boats, plus personal meds.</span></span>
-                    </label>
-                </div>
-                <div class="prep-group home-group">
-                    <div class="prep-group-head"><h3>Flying home</h3><span>For the end of the trip, just for you</span></div>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="india-form">
-                        <span class="prep-text"><span class="prep-name">Air Suvidha (India arrival form)</span><span class="prep-hint">Fill in the form for your return to India before the flight home, if it applies to you.</span><a class="prep-link" href="https://airsuvidha.civilaviation.gov.in/" target="_blank" rel="noopener">Open official site ↗</a></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="customs">
-                        <span class="prep-text"><span class="prep-name">Customs allowance</span><span class="prep-hint">Over the duty-free limit? Declare on the ATITHI app or use the red channel.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="checkin">
-                        <span class="prep-text"><span class="prep-name">Web check-in done</span><span class="prep-hint">Boarding passes saved offline.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="docs-home">
-                        <span class="prep-text"><span class="prep-name">Passport & documents packed</span><span class="prep-hint">Keep them in your hand luggage.</span></span>
-                    </label>
-                    <label class="prep-item venue-label">
-                        <input type="checkbox" data-home-id="baht-left">
-                        <span class="prep-text"><span class="prep-name">Leftover baht</span><span class="prep-hint">Spend it at the airport or keep it for next time.</span></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- DAY 1 -->
-            <div id="day1" class="day-section is-active">
-                <div class="day-header">
-                    <h2>Arrival & Settle In</h2>
-                    <span class="date-badge">Wed, Nov 18</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Airport fit: comfy but cute for the flight out.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day1-departure.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Home airport" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-t0">
-                            <div class="venue-text">
-                                <span class="venue-time">Departure</span>
-                                <span class="venue-name">Departure from Home Airport</span>
-                                <span class="venue-desc">Check in, grab a coffee, and snap the squad at the gate. The trip starts now!</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-                
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day1-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Airport" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">Night</span>
-                                <span class="venue-name">Touchdown in Phuket</span>
-                                <span class="venue-desc">Arrive late at HKT. Grab a direct taxi to our place in Kathu.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day1-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Resort Room" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">Late Night</span>
-                                <span class="venue-name">Check-in</span>
-                                <span class="venue-desc">Settle into the rooms and get some much-needed rest for the week ahead!</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Dinner" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-di">
-                            <div class="venue-text">
-                                <span class="venue-time">Dinner</span>
-                                <span class="venue-name">Dinner</span>
-                                <span class="venue-desc">Late-night 7-Eleven toastie run, a Thai rite of passage.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d1-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Touchdown fit: whatever you're wearing when we land in Phuket.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 2 -->
-            <div id="day2" class="day-section">
-                <div class="day-header">
-                    <h2>Elephants & Sunsets</h2>
-                    <span class="date-badge">Thu, Nov 19</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Sanctuary to temple: comfy shoes, shoulders and knees covered.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E" class="venue-img" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-bf">
-                            <div class="venue-text">
-                                <span class="venue-time">Breakfast</span>
-                                <span class="venue-name">Breakfast</span>
-                                <span class="venue-desc">Early hotel breakfast before the sanctuary pickup.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day2-elephant.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Elephant sanctuary" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-elephant">
-                            <div class="venue-text">
-                                <span class="venue-time">10:30 AM</span>
-                                <span class="venue-name">Phuket Elephant Sanctuary</span>
-                                <span class="venue-desc">Spend the morning with rescued elephants as they roam, bathe and forage. It's a walking, observation-based visit with no riding. Book ahead; tours include hotel pickup.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E" class="venue-img" alt="Lunch" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-lu">
-                            <div class="venue-text">
-                                <span class="venue-time">Lunch</span>
-                                <span class="venue-name">Lunch</span>
-                                <span class="venue-desc">Thai lunch on the way from the sanctuary to Big Buddha.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day2-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Big Buddha" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">2:30 PM</span>
-                                <span class="venue-name">Big Buddha</span>
-                                <span class="venue-desc">After the sanctuary, head up the mountain for sweeping afternoon views.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day2-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Phromthep Cape" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">5:00 PM</span>
-                                <span class="venue-name">Phromthep Cape</span>
-                                <span class="venue-desc">Arrive early to secure a prime spot on the upper deck for the famous sunset view.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day2-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Kata Night Market" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-t3">
-                            <div class="venue-text">
-                                <span class="venue-time">Evening</span>
-                                <span class="venue-name">Kata Night Market</span>
-                                <span class="venue-desc">Browse the stalls for snacks, souvenirs and people-watching down in Kata.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Dinner" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-di">
-                            <div class="venue-text">
-                                <span class="venue-time">Dinner</span>
-                                <span class="venue-name">Dinner</span>
-                                <span class="venue-desc">Dinner near Kata after the night market.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d2-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Sunset at Phromthep, then strolling the night market.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 3 -->
-            <div id="day3" class="day-section">
-                <div class="day-header">
-                    <h2>Phi Phi Day</h2>
-                    <span class="date-badge">Fri, Nov 20</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Boat day: swimwear under, cover-up over, sunnies on.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E" class="venue-img" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-bf">
-                            <div class="venue-text">
-                                <span class="venue-time">Breakfast</span>
-                                <span class="venue-name">Breakfast</span>
-                                <span class="venue-desc">Grab-and-go breakfast before the ferry.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day3-catamaran.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Catamaran ferry" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">Morning</span>
-                                <span class="venue-name">Catamaran to Phi Phi</span>
-                                <span class="venue-desc">Big catamaran ferry across the Andaman Sea from Phuket to Tonsai Pier on Phi Phi Don.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day3-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Longtail Boat" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">Midday</span>
-                                <span class="venue-name">Private Longtail Boat</span>
-                                <span class="venue-desc">Board a private longtail for 4 hours exploring Pileh Lagoon and Maya Bay.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E" class="venue-img" alt="Lunch" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-lu">
-                            <div class="venue-text">
-                                <span class="venue-time">Lunch</span>
-                                <span class="venue-name">Lunch</span>
-                                <span class="venue-desc">Lunch back on Phi Phi Don after the longtail. Pad thai with a view.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day3-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Temple Market" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-t3">
-                            <div class="venue-text">
-                                <span class="venue-time">Evening</span>
-                                <span class="venue-name">Karon Temple Market</span>
-                                <span class="venue-desc">Street snacks, desserts and local shopping at the beautiful temple grounds.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Dinner" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-di">
-                            <div class="venue-text">
-                                <span class="venue-time">Dinner</span>
-                                <span class="venue-name">Dinner</span>
-                                <span class="venue-desc">Dinner in Karon after the temple market.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d3-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Salty-hair look for the Karon Temple Market.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 4 -->
-            <div id="day4" class="day-section">
-                <div class="day-header">
-                    <h2>Phang Nga Bay</h2>
-                    <span class="date-badge">Sat, Nov 21</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Catamaran and canoe fit: quick-dry everything.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E" class="venue-img" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-bf">
-                            <div class="venue-text">
-                                <span class="venue-time">Breakfast</span>
-                                <span class="venue-name">Breakfast</span>
-                                <span class="venue-desc">Early breakfast before the catamaran pickup.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day4-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Limestone Cliffs" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">Day</span>
-                                <span class="venue-name">Phang Nga Bay</span>
-                                <span class="venue-desc">Large catamaran trip to see towering Krabi-style cliffs, with guided canoes through hidden caves.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E" class="venue-img" alt="Lunch" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-lu">
-                            <div class="venue-text">
-                                <span class="venue-time">Lunch</span>
-                                <span class="venue-name">Lunch</span>
-                                <span class="venue-desc">Lunch on board the catamaran (usually included; check your tour).</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day4-chillva.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Chillva Market" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-chillva">
-                            <div class="venue-text">
-                                <span class="venue-time">Before Dinner</span>
-                                <span class="venue-name">Chillva Market</span>
-                                <span class="venue-desc">Browse this hip container-style night market before dinner: drinks, snacks and quirky shops.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day4-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Street Food" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">7:00 PM</span>
-                                <span class="meal-tag">🍽️ Dinner</span>
-                                <span class="venue-name">Go Benz Michelin Food</span>
-                                <span class="venue-desc">Legendary Michelin street food famous for its crispy pork.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d4-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Chillva Market, then Go Benz dinner.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 5 -->
-            <div id="day5" class="day-section">
-                <div class="day-header">
-                    <h2>Spa & Old Town</h2>
-                    <span class="date-badge">Sun, Nov 22</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Spa-day soft: loose and breezy.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E" class="venue-img" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-bf">
-                            <div class="venue-text">
-                                <span class="venue-time">Breakfast</span>
-                                <span class="venue-name">Breakfast</span>
-                                <span class="venue-desc">Slow breakfast: you've earned it after two boat days.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day5-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Spa" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">11:00 AM</span>
-                                <span class="venue-name">Rejuvenating Spa</span>
-                                <span class="venue-desc">Traditional Thai massage and spa treatments to unwind after the back-to-back island days.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E" class="venue-img" alt="Lunch" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-lu">
-                            <div class="venue-text">
-                                <span class="venue-time">Lunch</span>
-                                <span class="venue-name">Lunch</span>
-                                <span class="venue-desc">Old Town lunch: try Hokkien noodles, a Phuket classic.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day5-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Old Town" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">3:30 PM</span>
-                                <span class="venue-name">Old Town Aesthetics</span>
-                                <span class="venue-desc">Grab smoothies at Hey! Mango, then hit Torry's Ice Cream for Sino-Portuguese vintage vibes.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day5-lardyai.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Lard Yai Walking Street" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-lardyai">
-                            <div class="venue-text">
-                                <span class="venue-time">Evening</span>
-                                <span class="venue-name">Lard Yai Sunday Walking Street</span>
-                                <span class="venue-desc">The massive Sunday night market on Thalang Road: snacks, crafts and live performers.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day5-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Lard Yai Market" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-t3">
-                            <div class="venue-text">
-                                <span class="venue-time">8:00 PM</span>
-                                <span class="meal-tag">🍽️ Dinner</span>
-                                <span class="venue-name">Michelin Dinner</span>
-                                <span class="venue-desc">Dinner at Tu Kab Khao or Raya for classic Phuket dishes in a heritage setting.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d5-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Old Town streets and Lard Yai: dress for the photos.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 6 -->
-            <div id="day6" class="day-section">
-                <div class="day-header">
-                    <h2>Jungle & Carnival</h2>
-                    <span class="date-badge">Mon, Nov 23</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Jungle-ready: trainers and something zipline-proof.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E" class="venue-img" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-bf">
-                            <div class="venue-text">
-                                <span class="venue-time">Breakfast</span>
-                                <span class="venue-name">Breakfast</span>
-                                <span class="venue-desc">Fuel up properly before the ziplines.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day6-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Jungle Canopy" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">Morning</span>
-                                <span class="venue-name">Hanuman World</span>
-                                <span class="venue-desc">High-adrenaline ziplines for thrill-seekers, or the beautiful canopy Sky Walk for a relaxed pace.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card meal">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E" class="venue-img" alt="Lunch" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-lu">
-                            <div class="venue-text">
-                                <span class="venue-time">Lunch</span>
-                                <span class="venue-name">Lunch</span>
-                                <span class="venue-desc">Quick lunch in Kathu after the ziplines.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day6-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Carnival Lights" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">Evening</span>
-                                <span class="meal-tag">🍽️ Dinner</span>
-                                <span class="venue-name">Carnival Magic</span>
-                                <span class="venue-desc">Massive theme park light displays, parades, flat walking paths, and a grand buffet dinner.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d6-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Carnival Magic: go bright, it's all lights.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 7 -->
-            <div id="day7" class="day-section">
-                <div class="day-header">
-                    <h2>Beach Club & Clubs</h2>
-                    <span class="date-badge">Tue, Nov 24</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Beach club brunch: linen, gold, and sunnies.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day7-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Beach Lounge" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">11:30 AM</span>
-                                <span class="meal-tag">🍽️ Brunch</span>
-                                <span class="venue-name">Tann Terrace Brunch</span>
-                                <span class="venue-desc">Aesthetic beachfront brunch with modern bohemian design right on the sand.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day7-tiger.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Tiger Kingdom" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-tiger">
-                            <div class="venue-text">
-                                <span class="venue-time">2:30 PM</span>
-                                <span class="venue-name">Tiger Kingdom Phuket</span>
-                                <span class="venue-desc">See the big cats up close in Kathu, a short drive from Patong, before the beach club.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day7-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Fire Spinner" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">6:30 PM</span>
-                                <span class="meal-tag">🍽️ Dinner</span>
-                                <span class="venue-name">Fuga Beach Club Fire Show</span>
-                                <span class="venue-desc">Sunset cocktails and live DJ, followed by the famous beach fire show at 8:00 PM.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day7-3.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Neon Club" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-t3">
-                            <div class="venue-text">
-                                <span class="venue-time">10:30 PM</span>
-                                <span class="venue-name">Bangla Road Clubs</span>
-                                <span class="venue-desc">Walk over to Patong's superclubs! Hit up Illuzion for EDM or Sugar Club for hip-hop.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                    
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the night" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d7-ootn">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Night</span>
-                                <span class="venue-name">OOTN</span>
-                                <span class="venue-desc">Bangla Road: full send.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- DAY 8 -->
-            <div id="day8" class="day-section">
-                <div class="day-header">
-                    <h2>Departure</h2>
-                    <span class="date-badge">Wed, Nov 25</span>
-                </div>
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E" class="venue-img" alt="Outfit of the day" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d8-ootd">
-                            <div class="venue-text">
-                                <span class="venue-time">Outfit of the Day</span>
-                                <span class="venue-name">OOTD</span>
-                                <span class="venue-desc">Last breakfast fit before we pack up.</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day8-1.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Breakfast" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d8-t1">
-                            <div class="venue-text">
-                                <span class="venue-time">Morning</span>
-                                <span class="meal-tag">🍽️ Breakfast</span>
-                                <span class="venue-name">Final Breakfast</span>
-                                <span class="venue-desc">Enjoy one last meal at the accommodation before packing up.</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card">
-                    <div class="venue-card-inner">
-                    <img src="img/day8-2.jpg" class="venue-img" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" alt="Airplane" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d8-t2">
-                            <div class="venue-text">
-                                <span class="venue-time">Day</span>
-                                <span class="venue-name">Flight Home</span>
-                                <span class="venue-desc">Take a taxi back to Phuket International Airport (HKT). Safe travels!</span>
-                            
-                                </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="venue-card outfit">
-                    <div class="venue-card-inner">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFE0EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23B3E5FC%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%91%8B%3C/text%3E%3C/svg%3E" class="venue-img" alt="Goodbyes" data-venue-img>
-                    <div class="venue-content">
-                        <label class="venue-label">
-                            <input type="checkbox" id="d8-bye">
-                            <div class="venue-text">
-                                <span class="venue-time">Farewell</span>
-                                <span class="venue-name">Goodbyes</span>
-                                <span class="venue-desc">One last squad photo before we all head home. Hugs, tears, and "same time next year?"</span>
-                            </div>
-                        </label>
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div> <!-- end slider -->
-    </div>
-
-
-
-    <!-- Photo viewer -->
-    <div id="photoLightbox" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Trip photo">
-        <div class="lb-top">
-            <span class="lb-meta" id="lbMeta"></span>
-            <button class="lb-btn" id="lbClose" aria-label="Close">✕</button>
-        </div>
-        <img id="lbImg" src="" alt="Trip photo">
-        <div class="lb-bottom">
-            <button class="lb-btn" id="lbPrev" aria-label="Previous photo">‹</button>
-            <button class="lb-btn danger" id="lbDelete" hidden>Delete my photo</button>
-            <button class="lb-btn" id="lbNext" aria-label="Next photo">›</button>
-        </div>
-    </div>
-
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <canvas id="confetti" aria-hidden="true"></canvas>
-    <div id="celebration" class="celebration" role="dialog" aria-modal="true" aria-labelledby="celebrationTitle">
-        <div class="celebration-card">
-            <span class="celebration-emoji" id="celebrationEmoji">🎉</span>
-            <div class="celebration-title" id="celebrationTitle"></div>
-            <div class="celebration-sub" id="celebrationSub"></div>
-            <button type="button" class="photo-btn primary" id="celebrationClose">Yay! 🙌</button>
-        </div>
-    </div>
-
-    <!--
+<div class="header">
+<h1>The Phuket List</h1>
+<p>The Sins Club • Nov 18-25, 2026</p>
+</div>
+<div class="nav-container">
+<div class="nav-tabs">
+<button class="nav-btn" data-target="prepChecklist">Checklist</button>
+<button class="nav-btn active" data-target="day0">Day 0</button>
+<button class="nav-btn" data-target="day1">Day 1</button>
+<button class="nav-btn" data-target="day2">Day 2</button>
+<button class="nav-btn" data-target="day3">Day 3</button>
+<button class="nav-btn" data-target="day4">Day 4</button>
+<button class="nav-btn" data-target="day5">Day 5</button>
+<button class="nav-btn" data-target="day6">Day 6</button>
+<button class="nav-btn" data-target="day7">Day 7</button>
+</div>
+</div>
+<!-- Interactive Progress Indicator -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<!-- Quest board -->
+<div class="quest-board" id="questBoard">
+<span class="quest-score" id="questScore">0 quests complete</span>
+</div>
+<div class="slider-wrapper">
+<!-- Desktop Navigation Arrows -->
+<button class="arrow-btn arrow-prev" data-dir="-1">❮</button>
+<button class="arrow-btn arrow-next" data-dir="1">❯</button>
+<div class="days-slider" id="daysSlider">
+<!-- DAY 0 -->
+<div class="day-section" data-prep="" id="prepChecklist">
+<div class="day-header">
+<h2>Trip Checklist</h2>
+<span class="date-badge">Before &amp; after</span>
+</div>
+<div class="prep-summary"><span id="prepCount">0 / 0 ready</span><div class="prep-bar"><i id="prepBar"></i></div></div>
+<div class="prep-group">
+<div class="prep-group-head"><h3>Documents</h3><span>Just for you, saved on this phone</span></div>
+<label class="prep-item venue-label">
+<input data-prep-id="passport" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Passport</span><span class="prep-hint">Valid for at least 6 months after Nov 25, 2026, with blank pages.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="tdac" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">TDAC (Thailand Digital Arrival Card)</span><span class="prep-hint">Free online form, submit within 3 days before landing (Nov 15 to 18). Save the QR code.</span><a class="prep-link" href="https://tdac.immigration.go.th" rel="noopener" target="_blank">Open official site ↗</a></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="visa" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Visa check</span><span class="prep-hint">Confirm the entry rules for your passport well before flying.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-home-id="fti" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Fast Track Immigration (FTI-TTP) <span class="prep-shared">Optional</span></span><span class="prep-hint">E-gates for Indian passport and OCI holders at participating Indian airports. Needs a biometrics appointment, so apply well before the trip.</span><a class="prep-link" href="https://ftittp.mha.gov.in/fti/" rel="noopener" target="_blank">Open official site ↗</a></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="insurance" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Travel insurance</span><span class="prep-hint">Check it covers boat trips and ziplining.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="boarding" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Boarding pass</span><span class="prep-hint">Web check-in done and boarding pass saved offline.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="copies" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Document copies</span><span class="prep-hint">Photos of passport, insurance and bookings saved offline.</span></span>
+</label>
+</div>
+<div class="prep-group">
+<div class="prep-group-head"><h3>Money &amp; phone</h3><span>Just for you, saved on this phone</span></div>
+<label class="prep-item venue-label">
+<input data-prep-id="baht" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Thai baht in cash</span><span class="prep-hint">For markets, longtails, taxis and tips.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="card" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Bank card ready</span><span class="prep-hint">International use switched on; bank told you're travelling.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="esim" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">eSIM or roaming</span><span class="prep-hint">Data sorted before you land.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="adapter" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Plug adapter</span><span class="prep-hint">Thai sockets are 220V; check your plugs fit.</span></span>
+</label>
+</div>
+<div class="prep-group">
+<div class="prep-group-head"><h3>Group bookings</h3><span>Ticked for everyone</span></div>
+<label class="prep-item venue-label">
+<input data-prep-id="tickets" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Flight tickets</span><span class="prep-hint">Booked for everyone. Share the PNR in the group chat.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-stay" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Accommodation in Kathu</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-airport" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Airport taxi transfer</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-phiphi" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Phi Phi catamaran + private longtail</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-phangnga" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Krabi / 4 Islands / Hong Island / James Bond Island day tour from Phuket</span><span class="prep-hint">Choose one route; these are separate full-day excursions.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-elephant" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Phuket Elephant Sanctuary</span><span class="prep-hint">Book the slot closest to 10:30 AM.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-spa" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Spa booking</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-hanuman" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Hanuman World</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-carnival" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Carnival Magic</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-tiger" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Tiger Kingdom</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="b-brunch" data-scope="shared" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Tann Terrace &amp; Fuga reservations</span></span>
+</label>
+</div>
+<div class="prep-group">
+<div class="prep-group-head"><h3>Packing</h3><span>Just for you, saved on this phone</span></div>
+<label class="prep-item venue-label">
+<input data-prep-id="sunscreen" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Reef-safe sunscreen</span><span class="prep-hint">For the two boat days.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="swim" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Swimwear &amp; quick-dry clothes</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="temple" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Temple outfit</span><span class="prep-hint">Shoulders and knees covered for Big Buddha.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="shoes" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Comfy shoes</span><span class="prep-hint">For the sanctuary, ziplines and night markets.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="pouch" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Waterproof phone pouch</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-prep-id="meds" data-scope="mine" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Medicines</span><span class="prep-hint">Motion-sickness tablets for the boats, plus personal meds.</span></span>
+</label>
+</div>
+<div class="prep-group home-group">
+<div class="prep-group-head"><h3>Flying home</h3><span>For the end of the trip, just for you</span></div>
+<label class="prep-item venue-label">
+<input data-home-id="india-form" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Air Suvidha (India arrival form)</span><span class="prep-hint">Fill in the form for your return to India before the flight home, if it applies to you.</span><a class="prep-link" href="https://airsuvidha.civilaviation.gov.in/" rel="noopener" target="_blank">Open official site ↗</a></span>
+</label>
+<label class="prep-item venue-label">
+<input data-home-id="customs" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Customs allowance</span><span class="prep-hint">Over the duty-free limit? Declare on the ATITHI app or use the red channel.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-home-id="checkin" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Web check-in done</span><span class="prep-hint">Boarding passes saved offline.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-home-id="docs-home" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Passport &amp; documents packed</span><span class="prep-hint">Keep them in your hand luggage.</span></span>
+</label>
+<label class="prep-item venue-label">
+<input data-home-id="baht-left" type="checkbox"/>
+<span class="prep-text"><span class="prep-name">Leftover baht</span><span class="prep-hint">Spend it at the airport or keep it for next time.</span></span>
+</label>
+</div>
+</div>
+<!-- DAY 1 -->
+<div class="day-section is-active" id="day0">
+<div class="day-header">
+<h2>Arrival &amp; Settle In</h2>
+<span class="date-badge">Wed, Nov 18</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Airport fit: comfy but cute for the flight out.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Home airport" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day1-departure.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-t0" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Departure</span>
+<span class="venue-name">Departure from Home Airport</span>
+<span class="venue-desc">Check in, grab a coffee, and snap the squad at the gate. The trip starts now!</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Airport" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day1-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Night</span>
+<span class="venue-name">Touchdown in Phuket</span>
+<span class="venue-desc">Arrive late at HKT. Grab a direct taxi to our place in Kathu.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Resort Room" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day1-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Late Night</span>
+<span class="venue-name">Check-in</span>
+<span class="venue-desc">Settle into the rooms and get some much-needed rest for the week ahead!</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="7-Eleven grocery shopping" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27%23E8F5E9%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%9B%92%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d0-grocery" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">After check-in</span>
+<span class="venue-name">7-Eleven Grocery Shopping</span>
+<span class="venue-desc">Pick up breakfast basics, snacks, drinking water, toiletries and other villa essentials for the week.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Dinner" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-di" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Dinner</span>
+<span class="venue-name">Dinner</span>
+<span class="venue-desc">Late-night 7-Eleven toastie run, a Thai rite of passage.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d1-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Temple and sightseeing fit: comfortable clothes and shoes for a full day out.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 2 -->
+<div class="day-section" id="day1">
+<div class="day-header">
+<h2>Big Buddha, Temples &amp; Cape</h2>
+<span class="date-badge">Thu, Nov 19</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Sanctuary to temple: comfy shoes, shoulders and knees covered.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-bf" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Breakfast</span>
+<span class="venue-name">Breakfast</span>
+<span class="venue-desc">Early breakfast before heading to Big Buddha.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Big Buddha" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day2-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">8:00 AM</span>
+<span class="venue-name">Big Buddha</span>
+<span class="venue-desc">Visit early for cooler weather, fewer crowds and panoramic views across Phuket.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Elephant sanctuary" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day2-elephant.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-elephant" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">10:30 AM</span>
+<span class="venue-name">Phuket Elephant Sanctuary</span>
+<span class="venue-desc">Spend the morning with rescued elephants as they roam, bathe and forage. It's a walking, observation-based visit with no riding. Book ahead; tours include hotel pickup.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Lunch" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-lu" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Lunch</span>
+<span class="venue-name">Lunch</span>
+<span class="venue-desc">Thai lunch after the elephant sanctuary, before visiting Wat Chalong.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Wat Chalong Temple" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/wat-chalong.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-wat-chalong" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">2:00 PM</span>
+<span class="venue-name">Wat Chalong Temple</span>
+<span class="venue-desc">Visit Phuket’s most revered Buddhist temple, admire the ornate architecture and peaceful grounds. Dress modestly with shoulders and knees covered, and remove shoes before entering temple buildings.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Phromthep Cape" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day2-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">5:00 PM</span>
+<span class="venue-name">Phromthep Cape</span>
+<span class="venue-desc">Arrive early to secure a prime spot on the upper deck for the famous sunset view.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Chillva Market" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day4-chillva.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-chillva" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Evening</span>
+<span class="venue-name">Chillva Market</span>
+<span class="venue-desc">Explore the container-style night market for street food, drinks, snacks and quirky shops.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Dinner" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-di" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Dinner</span>
+<span class="venue-name">Dinner</span>
+<span class="venue-desc">Dinner after exploring Chillva Market.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d2-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Sunset at Phromthep Cape, followed by an evening at Chillva Market.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 3 -->
+<div class="day-section" id="day2">
+<div class="day-header">
+<h2>Phi Phi Day</h2>
+<span class="date-badge">Fri, Nov 20</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Boat day: swimwear under, cover-up over, sunnies on.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-bf" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Breakfast</span>
+<span class="venue-name">Breakfast</span>
+<span class="venue-desc">Grab-and-go breakfast before the ferry.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Catamaran ferry" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day3-catamaran.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Morning</span>
+<span class="venue-name">Catamaran to Phi Phi</span>
+<span class="venue-desc">Big catamaran ferry across the Andaman Sea from Phuket to Tonsai Pier on Phi Phi Don.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Longtail Boat" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day3-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Midday</span>
+<span class="venue-name">Private Longtail Boat</span>
+<span class="venue-desc">Board a private longtail for 4 hours exploring Pileh Lagoon and Maya Bay.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Lunch" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-lu" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Lunch</span>
+<span class="venue-name">Lunch</span>
+<span class="venue-desc">Lunch back on Phi Phi Don after the longtail. Pad thai with a view.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Dinner" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FCE4EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23F48FB1%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-di" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Dinner</span>
+<span class="venue-name">Dinner</span>
+<span class="venue-desc">Dinner after returning from Phi Phi; keep the evening relaxed.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d3-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Comfortable evening outfit after a full day on the water.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 4 -->
+<div class="day-section" id="day3">
+<div class="day-header">
+<h2>Jungle &amp; Carnival</h2>
+<span class="date-badge">Mon, Nov 23</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Jungle-ready: trainers and something zipline-proof.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-bf" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Breakfast</span>
+<span class="venue-name">Breakfast</span>
+<span class="venue-desc">Fuel up properly before the ziplines.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Jungle Canopy" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day6-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Morning</span>
+<span class="venue-name">Hanuman World</span>
+<span class="venue-desc">High-adrenaline ziplines for thrill-seekers, or the beautiful canopy Sky Walk for a relaxed pace.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Lunch" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-lu" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Lunch</span>
+<span class="venue-name">Lunch</span>
+<span class="venue-desc">Quick lunch in Kathu after the ziplines.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Carnival Lights" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day6-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Evening</span>
+<span class="meal-tag">🍽️ Dinner</span>
+<span class="venue-name">Carnival Magic</span>
+<span class="venue-desc">Massive theme park light displays, parades, flat walking paths, and a grand buffet dinner.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d4-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Carnival Magic: go bright, it's all lights.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 5 -->
+<div class="day-section" id="day4">
+<div class="day-header">
+<h2>Spa &amp; Old Town</h2>
+<span class="date-badge">Sun, Nov 22</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Spa-day soft: loose and breezy.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-bf" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Breakfast</span>
+<span class="venue-name">Breakfast</span>
+<span class="venue-desc">Slow breakfast: you've earned it after two boat days.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Spa" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day5-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">11:00 AM</span>
+<span class="venue-name">Rejuvenating Spa</span>
+<span class="venue-desc">Traditional Thai massage and spa treatments to unwind after the back-to-back island days.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Lunch" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-lu" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Lunch</span>
+<span class="venue-name">One Chun Restaurant</span>
+<span class="venue-desc">Lunch at One Chun (One Chun Cafe &amp; Restaurant) in Phuket Old Town for classic local Phuket dishes; keep this as the Sunday food stop.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Old Town" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day5-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">3:30 PM</span>
+<span class="venue-name">Hey! Mango &amp; Torry’s Ice Cream</span>
+<span class="venue-desc">Stop at Hey! Mango for smoothies, then Torry’s Ice Cream for its signature Phuket-inspired flavours and Sino-Portuguese vintage vibes.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Lard Yai Walking Street" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day5-lardyai.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-lardyai" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Evening</span>
+<span class="venue-name">Lard Yai Sunday Walking Street</span>
+<span class="venue-desc">The massive Sunday night market on Thalang Road: snacks, crafts and live performers.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Lard Yai Market" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day5-3.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-t3" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">8:00 PM</span>
+<span class="meal-tag">🍽️ Dinner</span>
+<span class="venue-name">Michelin Dinner</span>
+<span class="venue-desc">Dinner at Tu Kab Khao or Raya for classic Phuket dishes in a heritage setting.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d5-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Old Town streets and Lard Yai: dress for the photos.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 6 -->
+<div class="day-section" id="day5">
+<div class="day-header">
+<h2>Krabi / 4 Islands Day Trip</h2>
+<span class="date-badge">Sat, Nov 21</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d6-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Island-hopping day from Phuket: swimwear, sun protection and a change of clothes.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF3E0%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFCC80%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%A5%90%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d6-bf" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Breakfast</span>
+<span class="venue-name">Breakfast</span>
+<span class="venue-desc">Early breakfast before your full-day island tour pickup from Phuket.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Limestone Cliffs" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day4-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d6-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Day</span>
+<span class="venue-name">Krabi 4 Islands / Hong Island / James Bond Island</span>
+<span class="venue-desc">Choose one full-day boat excursion from Phuket: Krabi’s 4 Islands (often including Poda, Chicken, Tup and Phra Nang), Hong Island in the Krabi area, or James Bond Island in Phang Nga Bay. These are separate tour routes, so pick the one that suits the group rather than trying to combine them all in one day. Confirm the Phuket pier transfer, travel time and inclusions before booking.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card meal">
+<div class="venue-card-inner">
+<img alt="Lunch" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23E8F5E9%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23A5D6A7%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2758%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8D%9C%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d6-lu" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Lunch</span>
+<span class="venue-name">Lunch</span>
+<span class="venue-desc">Lunch during the island tour (often included; confirm with your chosen operator).</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d6-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">A relaxed evening and dinner at Go Benz after the day trip.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 7 -->
+<div class="day-section" id="day6">
+<div class="day-header">
+<h2>Beach Club &amp; Clubs</h2>
+<span class="date-badge">Tue, Nov 24</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Beach club brunch: linen, gold, and sunnies.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Beach Lounge" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day7-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">11:30 AM</span>
+<span class="meal-tag">🍽️ Brunch</span>
+<span class="venue-name">Tann Terrace Brunch</span>
+<span class="venue-desc">Aesthetic beachfront brunch with modern bohemian design right on the sand.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Tiger Kingdom" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day7-tiger.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-tiger" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">2:30 PM</span>
+<span class="venue-name">Tiger Kingdom Phuket</span>
+<span class="venue-desc">See the big cats up close in Kathu, a short drive from Patong, before the beach club.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Fire Spinner" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day7-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">6:30 PM</span>
+<span class="meal-tag">🍽️ Dinner</span>
+<span class="venue-name">Fuga Beach Club Fire Show</span>
+<span class="venue-desc">Sunset cocktails and live DJ, followed by the famous beach fire show at 8:00 PM.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Neon Club" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day7-3.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-t3" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">10:30 PM</span>
+<span class="venue-name">Bangla Road Clubs</span>
+<span class="venue-desc">Walk over to Patong's superclubs! Hit up Illuzion for EDM or Sugar Club for hip-hop.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the night" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23B3E5FC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%237E57C2%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d7-ootn" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Night</span>
+<span class="venue-name">OOTN</span>
+<span class="venue-desc">Bangla Road: full send.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- DAY 8 -->
+<div class="day-section" id="day7">
+<div class="day-header">
+<h2>Departure</h2>
+<span class="date-badge">Wed, Nov 25</span>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Outfit of the day" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFF9C4%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23FFE082%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%E2%98%80%EF%B8%8F%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d8-ootd" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Outfit of the Day</span>
+<span class="venue-name">OOTD</span>
+<span class="venue-desc">Last breakfast fit before we pack up.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Breakfast" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day8-1.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d8-t1" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Morning</span>
+<span class="meal-tag">🍽️ Breakfast</span>
+<span class="venue-name">Final Breakfast</span>
+<span class="venue-desc">Enjoy one last meal at the accommodation before packing up.</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card">
+<div class="venue-card-inner">
+<img alt="Airplane" class="venue-img" data-venue-img="" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';" src="img/day8-2.jpg"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d8-t2" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Day</span>
+<span class="venue-name">Flight Home</span>
+<span class="venue-desc">Take a taxi back to Phuket International Airport (HKT). Safe travels!</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="venue-card outfit">
+<div class="venue-card-inner">
+<img alt="Goodbyes" class="venue-img" data-venue-img="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23FFE0EC%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%23B3E5FC%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%27120%27%20height%3D%27120%27%20fill%3D%27url%28%23g%29%27/%3E%3Ctext%20x%3D%2760%27%20y%3D%2764%27%20font-size%3D%2754%27%20text-anchor%3D%27middle%27%20dominant-baseline%3D%27middle%27%3E%F0%9F%91%8B%3C/text%3E%3C/svg%3E"/>
+<div class="venue-content">
+<label class="venue-label">
+<input id="d8-bye" type="checkbox"/>
+<div class="venue-text">
+<span class="venue-time">Farewell</span>
+<span class="venue-name">Goodbyes</span>
+<span class="venue-desc">One last squad photo before we all head home. Hugs, tears, and "same time next year?"</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div> <!-- end slider -->
+</div>
+<!-- Photo viewer -->
+<div aria-label="Trip photo" aria-modal="true" class="photo-lightbox" id="photoLightbox" role="dialog">
+<div class="lb-top">
+<span class="lb-meta" id="lbMeta"></span>
+<button aria-label="Close" class="lb-btn" id="lbClose">✕</button>
+</div>
+<img alt="Trip photo" id="lbImg" src=""/>
+<div class="lb-bottom">
+<button aria-label="Previous photo" class="lb-btn" id="lbPrev">‹</button>
+<button class="lb-btn danger" hidden="" id="lbDelete">Delete my photo</button>
+<button aria-label="Next photo" class="lb-btn" id="lbNext">›</button>
+</div>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<canvas aria-hidden="true" id="confetti"></canvas>
+<div aria-labelledby="celebrationTitle" aria-modal="true" class="celebration" id="celebration" role="dialog">
+<div class="celebration-card">
+<span class="celebration-emoji" id="celebrationEmoji">🎉</span>
+<div class="celebration-title" id="celebrationTitle"></div>
+<div class="celebration-sub" id="celebrationSub"></div>
+<button class="photo-btn primary" id="celebrationClose" type="button">Yay! 🙌</button>
+</div>
+</div>
+<!--
         🔑 FIREBASE DETAILS GO IN firebase-config.js (next to this file).
         Keeping them in their own file means you can update keys without touching this page.
     -->
-    <script src="firebase-config.js"></script>
-
-    <!-- Day slider -->
-    <script>
+<script src="firebase-config.js"></script>
+<!-- Day slider -->
+<script>
         const slider = document.getElementById('daysSlider');
         const sections = document.querySelectorAll('.day-section');
         const navBtns = document.querySelectorAll('.nav-btn');
@@ -2167,13 +2053,12 @@
                 });
             }, { root: slider, threshold: 0.6 });
             sections.forEach(sec => observer.observe(sec));
-            const day1 = document.getElementById("day1");
+            const day1 = document.getElementById("day0");
             if (day1) slider.scrollTo({ left: day1.offsetLeft - (slider.offsetWidth / 2) + (day1.offsetWidth / 2), behavior: "instant" });
         });
     </script>
-
-    <!-- 📸 Trip Quest: photo proof + Firebase sync -->
-    <script type="module">
+<!-- 📸 Trip Quest: photo proof + Firebase sync -->
+<script type="module">
         // Firebase is loaded on demand, so the photo buttons always appear
         // even if Firebase can't be reached (slow network, ad blocker, etc.).
         const FB = "https://www.gstatic.com/firebasejs/10.12.5/";
@@ -2751,7 +2636,7 @@
 
         // ---------- Day 0: pre-trip checklist (no photos needed) ----------
         // "Just for you" items are saved on this phone; group bookings are shared with everyone.
-        const prepBoxes = Array.from(document.querySelectorAll("#day0 [data-prep-id]"));
+        const prepBoxes = Array.from(document.querySelectorAll("#prepChecklist [data-prep-id]"));
         prepBoxes.forEach(box => {
             const pid = box.dataset.prepId;
             if (box.dataset.scope === "mine") box.checked = store.get("prep:" + pid) === "1";
@@ -2776,7 +2661,7 @@
                 renderPrep(true);
             });
         });
-        // Day 8 "Flying home" checklist: personal ticks, no photos.
+        // Day 7 "Flying home" checklist: personal ticks, no photos.
         document.querySelectorAll("[data-home-id]").forEach(box => {
             box.checked = store.get("home:" + box.dataset.homeId) === "1";
             box.addEventListener("click", () => {
@@ -2799,7 +2684,7 @@
                 setTimeout(() => {
                     rain(170);
                     showCelebration("✈️", "Ready for Phuket!", "Everything's packed, booked and sorted. See you at the airport.");
-                    nextDayAfterCelebration = "day1";
+                    nextDayAfterCelebration = "day0";
                 }, 300);
             }
         }
